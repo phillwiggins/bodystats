@@ -1,0 +1,23 @@
+#!/bin/bash
+
+git stash -q --keep-index
+
+echo "#################################"
+echo "#     Running KTLintFormat      #"
+echo "#################################"
+
+./gradlew ktlintFormat
+
+echo "#################################"
+echo "#     Running KTLintCheck       #"
+echo "#################################"
+
+./gradlew ktlintCheck
+
+RESULT=$?
+
+git stash pop -q
+
+# return 1 exit code if running checks fails
+[ $RESULT -ne 0 ] && exit 1
+exit 0
