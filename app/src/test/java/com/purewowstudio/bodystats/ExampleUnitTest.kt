@@ -1,4 +1,4 @@
-package com.purewowstudio.template
+package com.purewowstudio.bodystats
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

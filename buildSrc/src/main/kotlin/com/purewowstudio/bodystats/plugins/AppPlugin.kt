@@ -1,5 +1,9 @@
-package com.purewowstudio.template.plugins
+package com.purewowstudio.bodystats.plugins
 
+import App
+import ModulePlugins
+import Sdk
+import Versions
 import com.android.build.gradle.BaseExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
@@ -9,19 +13,18 @@ class AppPlugin : Plugin<Project> {
 
     private val Project.android: BaseExtension
         get() = extensions.findByName("android") as? BaseExtension
-                ?: error("Not an Android module: $name")
+            ?: error("Not an Android module: $name")
 
     override fun apply(project: Project) =
-            with(project) {
-                applyPlugins()
-                androidConfig()
-            }
+        with(project) {
+            applyPlugins()
+            androidConfig()
+        }
 
     private fun Project.applyPlugins() {
         plugins.run {
             apply(ModulePlugins.ANDROID_APP)
             apply(ModulePlugins.KOTLIN_ANDROID)
-            apply(ModulePlugins.KOTLIN_ANDROID_EXT)
         }
     }
 
@@ -30,8 +33,8 @@ class AppPlugin : Plugin<Project> {
             compileSdkVersion(Sdk.COMPILE_SDK_VERSION)
 
             defaultConfig {
-                minSdkVersion(Sdk.MIN_SDK_VERSION)
-                targetSdkVersion(Sdk.TARGET_SDK_VERSION)
+                minSdk = Sdk.MIN_SDK_VERSION
+                targetSdk = Sdk.TARGET_SDK_VERSION
 
                 applicationId = App.APP_ID
                 versionCode = App.APP_VERSION_CODE
@@ -42,11 +45,12 @@ class AppPlugin : Plugin<Project> {
                 sourceCompatibility = JavaVersion.VERSION_1_8
                 targetCompatibility = JavaVersion.VERSION_1_8
             }
-            project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class.java).configureEach {
-                kotlinOptions {
-                    jvmTarget = "1.8"
+            project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class.java)
+                .configureEach {
+                    kotlinOptions {
+                        jvmTarget = "1.8"
+                    }
                 }
-            }
             sourceSets {
                 getByName("main").java.srcDirs("src/main/kotlin")
             }
@@ -61,16 +65,35 @@ class AppPlugin : Plugin<Project> {
                     isMinifyEnabled = true
                     isDebuggable = false
                     isShrinkResources = true
-                    isZipAlignEnabled = true
                     isJniDebuggable = false
                     isRenderscriptDebuggable = false
-                    proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+                    proguardFiles(
+                        getDefaultProguardFile("proguard-android-optimize.txt"),
+                        "proguard-rules.pro"
+                    )
                 }
             }
 
             lintOptions {
                 isWarningsAsErrors = true
                 isAbortOnError = true
+            }
+
+            buildFeatures.compose = true
+
+            composeOptions {
+                kotlinCompilerExtensionVersion = Versions.Compose.KOTLIN_COMPILER
+            }
+
+            packagingOptions {
+                setExcludes(
+                    setOf(
+                        "META-INF/AL2.0",
+                        "META-INF/LGPL2.1",
+                        "META-INF/MANIFEST.MF",
+                        "META-INF/proguard/coroutines.pro"
+                    )
+                )
             }
         }
     }

@@ -1,7 +1,7 @@
 object Sdk {
     const val MIN_SDK_VERSION = 21
-    const val TARGET_SDK_VERSION = 30
-    const val COMPILE_SDK_VERSION = 30
+    const val TARGET_SDK_VERSION = 31
+    const val COMPILE_SDK_VERSION = 31
 }
 
 object Versions {
@@ -15,6 +15,10 @@ object Versions {
     const val ESPRESSO_CORE = "3.2.0"
     const val JUNIT = "4.13"
     const val KTLINT = "0.37.2"
+
+    object Compose {
+        const val KOTLIN_COMPILER = "1.1.1"
+    }
 }
 
 object BuildPluginsVersion {
@@ -29,16 +33,28 @@ object ModulePlugins {
     const val ANDROID_LIBRARY = "com.android.library"
     const val ANDROID_APP = "com.android.application"
     const val KOTLIN_ANDROID = "kotlin-android"
-    const val KOTLIN_ANDROID_EXT = "kotlin-android-extensions"
 }
 
 object SupportLibs {
     const val ANDROIDX_NAV_UI = "androidx.navigation:navigation-ui-ktx:${Versions.NAVIGATION}"
-    const val ANDROIDX_NAV_FRAGMENT = "androidx.navigation:navigation-fragment-ktx:${Versions.NAVIGATION}"
+    const val ANDROIDX_NAV_FRAGMENT =
+        "androidx.navigation:navigation-fragment-ktx:${Versions.NAVIGATION}"
     const val ANDROIDX_APPCOMPAT = "androidx.appcompat:appcompat:${Versions.APPCOMPAT}"
-    const val ANDROIDX_CONSTRAINT_LAYOUT = "com.android.support.constraint:constraint-layout:${Versions.CONSTRAINT_LAYOUT}"
+    const val ANDROIDX_CONSTRAINT_LAYOUT =
+        "com.android.support.constraint:constraint-layout:${Versions.CONSTRAINT_LAYOUT}"
     const val ANDROIDX_CORE_KTX = "androidx.core:core-ktx:${Versions.CORE_KTX}"
     const val MATERIAL = "com.google.android.material:material:${Versions.MATERIAL}"
+}
+
+object Dependencies {
+    object Compose {
+        const val ACTIVITIES = "androidx.activity:activity-compose:1.4.0"
+        const val MATERIAL = "androidx.compose.material:material:1.1.1"
+        const val ANIM = "androidx.compose.animation:animation:1.1.1"
+        const val TOOLING = "androidx.compose.ui:ui-tooling:1.1.1"
+        const val VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1"
+        const val UI_TEST = "androidx.compose.ui:ui-test-junit4:1.1.1"
+    }
 }
 
 object TestingLib {

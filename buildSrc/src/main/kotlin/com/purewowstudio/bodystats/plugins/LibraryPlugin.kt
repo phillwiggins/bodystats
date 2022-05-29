@@ -1,4 +1,4 @@
-package com.purewowstudio.template.plugins
+package com.purewowstudio.bodystats.plugins
 
 import com.android.build.gradle.BaseExtension
 import org.gradle.api.JavaVersion
@@ -21,7 +21,6 @@ class LibraryPlugin : Plugin<Project> {
         plugins.run {
             apply(ModulePlugins.ANDROID_LIBRARY)
             apply(ModulePlugins.KOTLIN_ANDROID)
-            apply(ModulePlugins.KOTLIN_ANDROID_EXT)
         }
     }
 
@@ -30,8 +29,8 @@ class LibraryPlugin : Plugin<Project> {
             compileSdkVersion(Sdk.COMPILE_SDK_VERSION)
 
             defaultConfig {
-                minSdkVersion(Sdk.MIN_SDK_VERSION)
-                targetSdkVersion(Sdk.TARGET_SDK_VERSION)
+                minSdk = Sdk.MIN_SDK_VERSION
+                targetSdk = Sdk.TARGET_SDK_VERSION
 
                 versionCode = ModuleVersions.LIBRARY_VERSION_CODE
                 versionName = ModuleVersions.LIBRARY_VERSION
