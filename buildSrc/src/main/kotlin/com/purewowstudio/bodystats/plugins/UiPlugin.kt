@@ -6,7 +6,7 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-class LibraryPlugin : Plugin<Project> {
+class UiPlugin : Plugin<Project> {
 
     private val Project.android: BaseExtension
         get() = extensions.findByName("android") as? BaseExtension
@@ -43,16 +43,6 @@ class LibraryPlugin : Plugin<Project> {
             compileOptions {
                 sourceCompatibility = JavaVersion.VERSION_1_8
                 targetCompatibility = JavaVersion.VERSION_1_8
-            }
-
-            buildTypes {
-                getByName("release") {
-                    isMinifyEnabled = false
-                    proguardFiles(
-                            getDefaultProguardFile("proguard-android-optimize.txt"),
-                            "proguard-rules.pro"
-                    )
-                }
             }
 
             sourceSets {

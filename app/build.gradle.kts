@@ -5,18 +5,12 @@ plugins {
 dependencies {
     implementation(kotlin("stdlib-jdk7"))
 
-    implementation(SupportLibs.ANDROIDX_APPCOMPAT)
-    implementation(SupportLibs.ANDROIDX_CONSTRAINT_LAYOUT)
-    implementation(SupportLibs.ANDROIDX_CORE_KTX)
-    implementation(SupportLibs.MATERIAL)
-    implementation(SupportLibs.ANDROIDX_NAV_FRAGMENT)
-    implementation(SupportLibs.ANDROIDX_NAV_UI)
+    implementation(Dependencies.Main.ANDROIDX_NAV_UI)
+    implementation(Dependencies.Main.MATERIAL)
 
     implementation(Dependencies.Compose.ACTIVITIES)
-    implementation(Dependencies.Compose.MATERIAL)
-    implementation(Dependencies.Compose.ANIM)
-    implementation(Dependencies.Compose.VIEWMODEL)
     implementation(Dependencies.Compose.TOOLING)
+    implementation(Dependencies.Compose.MATERIAL)
 
     testImplementation(TestingLib.JUNIT)
 

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.BodyStats" parent="Platform.Theme.BodyStats">
+        <item name="colorPrimary">@color/blue300</item>
+        <item name="colorPrimaryDark">@color/blue400</item>
+        <item name="colorAccent">@color/yellow400</item>
+    </style>
+</resources>

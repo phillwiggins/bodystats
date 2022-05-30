@@ -1,5 +1,5 @@
 object Sdk {
-    const val MIN_SDK_VERSION = 21
+    const val MIN_SDK_VERSION = 23
     const val TARGET_SDK_VERSION = 31
     const val COMPILE_SDK_VERSION = 31
 }
@@ -22,11 +22,8 @@ object Versions {
 }
 
 object BuildPluginsVersion {
-    const val AGP = "4.0.0"
     const val DETEKT = "1.10.0"
-    const val KOTLIN = "1.3.72"
     const val KTLINT = "9.2.1"
-    const val VERSIONS_PLUGIN = "0.28.0"
 }
 
 object ModulePlugins {
@@ -35,25 +32,25 @@ object ModulePlugins {
     const val KOTLIN_ANDROID = "kotlin-android"
 }
 
-object SupportLibs {
-    const val ANDROIDX_NAV_UI = "androidx.navigation:navigation-ui-ktx:${Versions.NAVIGATION}"
-    const val ANDROIDX_NAV_FRAGMENT =
-        "androidx.navigation:navigation-fragment-ktx:${Versions.NAVIGATION}"
-    const val ANDROIDX_APPCOMPAT = "androidx.appcompat:appcompat:${Versions.APPCOMPAT}"
-    const val ANDROIDX_CONSTRAINT_LAYOUT =
-        "com.android.support.constraint:constraint-layout:${Versions.CONSTRAINT_LAYOUT}"
-    const val ANDROIDX_CORE_KTX = "androidx.core:core-ktx:${Versions.CORE_KTX}"
-    const val MATERIAL = "com.google.android.material:material:${Versions.MATERIAL}"
-}
 
 object Dependencies {
+
+    object Main {
+        const val MATERIAL = "com.google.android.material:material:1.6.0-alpha03"
+        const val ANDROIDX_NAV_UI = "androidx.navigation:navigation-ui-ktx:${Versions.NAVIGATION}"
+    }
+
     object Compose {
+        private const val VERSION = "1.2.0-beta02"
+
         const val ACTIVITIES = "androidx.activity:activity-compose:1.4.0"
-        const val MATERIAL = "androidx.compose.material:material:1.1.1"
-        const val ANIM = "androidx.compose.animation:animation:1.1.1"
-        const val TOOLING = "androidx.compose.ui:ui-tooling:1.1.1"
+        const val MATERIAL = "androidx.compose.material:material:$VERSION"
+        const val MATERIAL3 = "androidx.compose.material3:material3:1.0.0-alpha12"
+        const val ANIM = "androidx.compose.animation:animation:$VERSION"
+        const val TOOLING = "androidx.compose.ui:ui-tooling:$VERSION"
+        const val FONTS = "androidx.compose.ui:ui-text-google-fonts:$VERSION"
         const val VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1"
-        const val UI_TEST = "androidx.compose.ui:ui-test-junit4:1.1.1"
+        const val UI_TEST = "androidx.compose.ui:ui-test-junit4:$VERSION"
     }
 }
 

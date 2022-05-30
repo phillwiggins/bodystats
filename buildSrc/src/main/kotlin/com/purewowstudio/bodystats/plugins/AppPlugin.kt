@@ -5,6 +5,7 @@ import ModulePlugins
 import Sdk
 import Versions
 import com.android.build.gradle.BaseExtension
+import com.purewowstudio.bodystats.plugins.constants.getDefaultPackagingOptions
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -85,16 +86,7 @@ class AppPlugin : Plugin<Project> {
                 kotlinCompilerExtensionVersion = Versions.Compose.KOTLIN_COMPILER
             }
 
-            packagingOptions {
-                setExcludes(
-                    setOf(
-                        "META-INF/AL2.0",
-                        "META-INF/LGPL2.1",
-                        "META-INF/MANIFEST.MF",
-                        "META-INF/proguard/coroutines.pro"
-                    )
-                )
-            }
+            packagingOptions.getDefaultPackagingOptions()
         }
     }
 }

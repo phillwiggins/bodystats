@@ -1,0 +1,21 @@
+<resources>
+    <style name="Platform.Theme.BodyStats" parent="Theme.Material3.DayNight">
+        <item name="android:statusBarColor">@color/black30</item>
+    </style>
+
+    <style name="Theme.BodyStats" parent="Platform.Theme.BodyStats">
+        <item name="colorPrimary">@color/blue500</item>
+        <item name="colorPrimaryDark">@color/blue800</item>
+        <item name="colorAccent">@color/yellow700</item>
+    </style>
+
+    <style name="Theme.BodyStats.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Jetchat.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
+
+    <style name="Theme.Jetchat.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
+
+</resources>
