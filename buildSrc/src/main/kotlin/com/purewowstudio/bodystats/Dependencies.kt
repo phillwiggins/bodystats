@@ -5,12 +5,10 @@ object Sdk {
 }
 
 object Versions {
-    const val NAVIGATION = "2.3.0"
-    const val MATERIAL = "1.2.1"
+    const val NAVIGATION = "2.4.0"
+    const val MATERIAL = "1.6.0-alpha03"
     const val ANDROIDX_TEST_EXT = "1.1.1"
     const val ANDROIDX_TEST = "1.2.0"
-    const val APPCOMPAT = "1.1.0"
-    const val CONSTRAINT_LAYOUT = "1.1.3"
     const val CORE_KTX = "1.2.0"
     const val ESPRESSO_CORE = "3.2.0"
     const val JUNIT = "4.13"
@@ -36,8 +34,18 @@ object ModulePlugins {
 object Dependencies {
 
     object Main {
-        const val MATERIAL = "com.google.android.material:material:1.6.0-alpha03"
+        const val MATERIAL = "com.google.android.material:material:${Versions.MATERIAL}"
         const val ANDROIDX_NAV_UI = "androidx.navigation:navigation-ui-ktx:${Versions.NAVIGATION}"
+    }
+
+    object Modules {
+        object UI {
+            const val MAIN = ":ui-feat-main"
+            const val OVERVIEW = ":ui-feat-overview"
+            const val PROFILE = ":ui-feat-profile"
+            const val COMMON = ":ui-lib-common"
+            const val NAVIGATION = ":ui-lib-navigation"
+        }
     }
 
     object Compose {
@@ -45,12 +53,13 @@ object Dependencies {
 
         const val ACTIVITIES = "androidx.activity:activity-compose:1.4.0"
         const val MATERIAL = "androidx.compose.material:material:$VERSION"
-        const val MATERIAL3 = "androidx.compose.material3:material3:1.0.0-alpha12"
+        const val MATERIAL3 = "androidx.compose.material3:material3:1.0.0-alpha10"
         const val ANIM = "androidx.compose.animation:animation:$VERSION"
         const val TOOLING = "androidx.compose.ui:ui-tooling:$VERSION"
         const val FONTS = "androidx.compose.ui:ui-text-google-fonts:$VERSION"
-        const val VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1"
         const val UI_TEST = "androidx.compose.ui:ui-test-junit4:$VERSION"
+        const val NAVIGATION = "androidx.navigation:navigation-compose:${Versions.NAVIGATION}"
+        const val VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1"
     }
 }
 

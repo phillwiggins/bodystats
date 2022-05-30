@@ -2,6 +2,7 @@ package com.purewowstudio.bodystats.plugins
 
 import com.android.build.gradle.BaseExtension
 import com.purewowstudio.bodystats.plugins.constants.getDefaultPackagingOptions
+import com.purewowstudio.bodystats.plugins.constants.setExperimentalWarningsOptIn
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -65,6 +66,7 @@ class LibraryPlugin : Plugin<Project> {
             }
 
             packagingOptions.getDefaultPackagingOptions()
+            setExperimentalWarningsOptIn()
         }
     }
 }

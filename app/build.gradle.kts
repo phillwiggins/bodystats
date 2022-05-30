@@ -3,14 +3,13 @@ plugins {
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk7"))
+    implementation(project(Dependencies.Modules.UI.MAIN))
 
     implementation(Dependencies.Main.ANDROIDX_NAV_UI)
     implementation(Dependencies.Main.MATERIAL)
 
     implementation(Dependencies.Compose.ACTIVITIES)
     implementation(Dependencies.Compose.TOOLING)
-    implementation(Dependencies.Compose.MATERIAL)
 
     testImplementation(TestingLib.JUNIT)
 

@@ -6,6 +6,7 @@ import Sdk
 import Versions
 import com.android.build.gradle.BaseExtension
 import com.purewowstudio.bodystats.plugins.constants.getDefaultPackagingOptions
+import com.purewowstudio.bodystats.plugins.constants.setExperimentalWarningsOptIn
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -87,6 +88,7 @@ class AppPlugin : Plugin<Project> {
             }
 
             packagingOptions.getDefaultPackagingOptions()
+            setExperimentalWarningsOptIn()
         }
     }
 }

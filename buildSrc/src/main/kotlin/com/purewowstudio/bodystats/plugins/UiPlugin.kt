@@ -2,9 +2,11 @@ package com.purewowstudio.bodystats.plugins
 
 import com.android.build.gradle.BaseExtension
 import com.purewowstudio.bodystats.plugins.constants.getDefaultPackagingOptions
+import com.purewowstudio.bodystats.plugins.constants.setExperimentalWarningsOptIn
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.dependencies
 
 class UiPlugin : Plugin<Project> {
 
@@ -16,6 +18,7 @@ class UiPlugin : Plugin<Project> {
             with(project) {
                 applyPlugins()
                 androidConfig()
+                appDependencies()
             }
 
     private fun Project.applyPlugins() {
@@ -55,6 +58,26 @@ class UiPlugin : Plugin<Project> {
             }
 
             packagingOptions.getDefaultPackagingOptions()
+            setExperimentalWarningsOptIn()
+
+            buildFeatures.compose = true
+
+            composeOptions {
+                kotlinCompilerExtensionVersion = Versions.Compose.KOTLIN_COMPILER
+            }
+        }
+    }
+
+    private fun Project.appDependencies() {
+        dependencies {
+            add("implementation", Dependencies.Compose.ACTIVITIES)
+            // add("implementation", Dependencies.Compose.MATERIAL)
+            add("implementation", Dependencies.Compose.MATERIAL3)
+            add("implementation", Dependencies.Compose.FONTS)
+            add("implementation", Dependencies.Compose.ANIM)
+            add("implementation", Dependencies.Compose.VIEWMODEL)
+            add("implementation", Dependencies.Compose.TOOLING)
+            add("implementation", Dependencies.Compose.NAVIGATION)
         }
     }
 }
