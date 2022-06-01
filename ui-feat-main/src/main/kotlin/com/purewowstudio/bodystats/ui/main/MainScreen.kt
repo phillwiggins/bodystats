@@ -3,7 +3,7 @@ package com.purewowstudio.bodystats.ui.main
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.rememberNavController
-import com.purewowstudio.bodystats.ui.common.components.BottomNavigationBar
+import com.purewowstudio.bodystats.ui.common.components.BSBottomNavigationBar
 import com.purewowstudio.bodystats.ui.common.theme.BodyStatsTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -18,7 +18,7 @@ fun MainScreen() {
                 NavigationHost(navController = navController)
             },
             bottomBar = {
-                BottomNavigationBar(navController = navController)
+                BSBottomNavigationBar(navController = navController)
             }
         )
     }

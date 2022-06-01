@@ -3,6 +3,7 @@ package com.purewowstudio.bodystats.ui.navigation
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
 
 object NavBarItems {
     val BarItems = listOf(
@@ -13,7 +14,7 @@ object NavBarItems {
         ),
         BarItem(
             title = "Profile",
-            image = Icons.Filled.Face,
+            image = Icons.Filled.Person,
             route = "profile"
         ),
     )

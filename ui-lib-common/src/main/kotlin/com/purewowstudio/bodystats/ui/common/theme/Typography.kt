@@ -11,20 +11,20 @@ import androidx.compose.ui.unit.sp
 import com.purewowstudio.bodystats.ui.common.R
 
 @OptIn(ExperimentalTextApi::class)
-val provider = GoogleFont.Provider(
+internal val provider = GoogleFont.Provider(
     providerAuthority = "com.google.android.gms.fonts",
     providerPackage = "com.google.android.gms",
     certificates = R.array.com_google_android_gms_fonts_certs
 )
 
 @OptIn(ExperimentalTextApi::class)
-val MontserratFont = GoogleFont(name = "Montserrat")
+internal val MontserratFont = GoogleFont(name = "Montserrat")
 
 @OptIn(ExperimentalTextApi::class)
-val KarlaFont = GoogleFont(name = "Karla")
+internal val KarlaFont = GoogleFont(name = "Karla")
 
 @OptIn(ExperimentalTextApi::class)
-val MontserratFontFamily = FontFamily(
+internal val MontserratFontFamily = FontFamily(
     Font(googleFont = MontserratFont, fontProvider = provider),
     Font(googleFont = MontserratFont, fontProvider = provider, weight = FontWeight.Light),
     Font(googleFont = MontserratFont, fontProvider = provider, weight = FontWeight.Medium),
@@ -32,12 +32,12 @@ val MontserratFontFamily = FontFamily(
 )
 
 @OptIn(ExperimentalTextApi::class)
-val KarlaFontFamily = FontFamily(
+internal val KarlaFontFamily = FontFamily(
     Font(googleFont = KarlaFont, fontProvider = provider),
     Font(googleFont = KarlaFont, fontProvider = provider, weight = FontWeight.Bold),
 )
 
-val BodyStatsTypography = Typography(
+internal val BodyStatsTypography = Typography(
     displayLarge = TextStyle(
         fontFamily = MontserratFontFamily,
         fontWeight = FontWeight.Light,
