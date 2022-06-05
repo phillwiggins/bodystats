@@ -20,6 +20,13 @@ import com.purewowstudio.bodystats.ui.common.theme.BodyStatsTheme
 
 @Composable
 fun ProfileScreen() {
+    ProfileScreenContent()
+}
+
+@Composable
+fun ProfileScreenContent(
+
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

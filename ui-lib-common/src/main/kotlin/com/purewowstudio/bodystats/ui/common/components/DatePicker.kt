@@ -21,7 +21,7 @@ fun DatePicker(
         factory = { context ->
             val view = LayoutInflater.from(context)
                 .inflate(R.layout.date_picker, null)
-            
+
             val datePicker = view.findViewById<DatePicker>(R.id.datePicker)
 
             datePicker.init(
@@ -31,14 +31,15 @@ fun DatePicker(
             ) { _, year, monthOfYear, dayOfMonth ->
                 onDateSelected(LocalDate.of(year, monthOfYear + 1, dayOfMonth))
             }
-            
+
             datePicker
         }
     )
 }
 
 @Preview
-@Composable fun DatePickerPreview() {
+@Composable
+fun DatePickerPreview() {
     Box(modifier = Modifier.fillMaxWidth()) {
         DatePicker(onDateSelected = { /* NO OP*/ })
     }

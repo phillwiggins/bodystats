@@ -2,8 +2,9 @@ package com.purewowstudio.bodystats.ui.common.components.dialogs
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Cake
+import androidx.compose.material.icons.outlined.Female
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -17,20 +18,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.purewowstudio.bodystats.ui.common.R
-import com.purewowstudio.bodystats.ui.common.components.DatePicker
 import com.purewowstudio.bodystats.ui.common.theme.BodyStatsTheme
-import java.time.LocalDate
 
 @Composable
-fun DOBDialog(
-    onConfirmClicked: (LocalDate) -> Unit,
+fun GenderDialog(
+    onConfirmClicked: () -> Unit,
     onDismiss: () -> Unit
 ) {
     Dialog(
         onDismissRequest = onDismiss,
         properties = DialogProperties()
     ) {
-        DOBDialogContent(
+        GenderDialogContent(
             onConfirmClicked = onConfirmClicked,
             onDismiss = onDismiss
         )
@@ -39,38 +38,73 @@ fun DOBDialog(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DOBDialogContent(
-    initialDate: LocalDate = LocalDate.now().minusYears(18),
-    onConfirmClicked: (LocalDate) -> Unit,
+fun GenderDialogContent(
+    onConfirmClicked: () -> Unit,
     onDismiss: () -> Unit,
 ) {
 
-    val selectedDate = remember { mutableStateOf(initialDate) }
+    val radioOptions = listOf(
+        stringResource(id = R.string.male),
+        stringResource(id = R.string.female)
+    )
 
-    Card(modifier = Modifier.fillMaxWidth()) {
+    val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[1]) }
+
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+    ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Spacer(modifier = Modifier.height(16.dp))
             Icon(
                 modifier = Modifier.height(32.dp),
-                imageVector = Icons.Outlined.Cake,
-                contentDescription = "Birthday",
+                imageVector = Icons.Outlined.Female,
+                contentDescription = "Gender",
                 tint = MaterialTheme.colorScheme.secondary
             )
             Text(
                 color = MaterialTheme.colorScheme.onSurface,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.headlineSmall,
-                text = stringResource(id = R.string.date_of_birth)
+                text = stringResource(id = R.string.gender)
             )
             Text(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.bodyMedium,
-                text = stringResource(id = R.string.date_of_birth_desc)
+                text = stringResource(id = R.string.gender_desc)
             )
-            DatePicker(
-                initialDate = initialDate,
-                onDateSelected = { selectedDate.value = it })
+            Divider(
+                modifier = Modifier.fillMaxWidth(),
+                thickness = 2.dp,
+                color = MaterialTheme.colorScheme.surfaceVariant
+            )
+            Column {
+                radioOptions.forEach { text ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .selectable(
+                                selected = (text == selectedOption),
+                                onClick = { onOptionSelected(text) }
+                            ),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        RadioButton(
+                            selected = (text == selectedOption),
+                            onClick = { onOptionSelected(text) }
+                        )
+                        Text(
+                            text = text,
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                    }
+                }
+            }
+            Divider(
+                modifier = Modifier.fillMaxWidth(),
+                thickness = 1.dp,
+                color = MaterialTheme.colorScheme.surfaceVariant
+            )
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.End
@@ -82,7 +116,7 @@ fun DOBDialogContent(
                     )
                 }
                 TextButton(onClick = {
-                    onConfirmClicked.invoke(selectedDate.value)
+                    onConfirmClicked.invoke()
                 }) {
                     Text(
                         style = MaterialTheme.typography.labelLarge,
@@ -96,7 +130,7 @@ fun DOBDialogContent(
 
 @Preview
 @Composable
-fun PreviewSomeDialogContent() {
+fun PreviewGenderDialogContent() {
     BodyStatsTheme {
         Box(
             modifier = Modifier
@@ -105,7 +139,7 @@ fun PreviewSomeDialogContent() {
                 .padding(20.dp),
             contentAlignment = Alignment.Center,
         ) {
-            DOBDialogContent(
+            GenderDialogContent(
                 onConfirmClicked = { /* NO OP */ },
                 onDismiss = { /* NO OP */ },
             )

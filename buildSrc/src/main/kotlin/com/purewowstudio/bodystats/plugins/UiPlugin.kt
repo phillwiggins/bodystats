@@ -84,6 +84,7 @@ class UiPlugin : Plugin<Project> {
             add("implementation", Dependencies.Compose.VIEWMODEL)
             add("implementation", Dependencies.Compose.TOOLING)
             add("implementation", Dependencies.Compose.NAVIGATION)
+            add("implementation", Dependencies.Compose.ICONS)
         }
     }
 }

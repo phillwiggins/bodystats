@@ -61,6 +61,7 @@ object Dependencies {
         const val UI_TEST = "androidx.compose.ui:ui-test-junit4:$VERSION"
         const val NAVIGATION = "androidx.navigation:navigation-compose:${Versions.NAVIGATION}"
         const val VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1"
+        const val ICONS = "androidx.compose.material:material-icons-extended:$VERSION"
     }
 }
 
