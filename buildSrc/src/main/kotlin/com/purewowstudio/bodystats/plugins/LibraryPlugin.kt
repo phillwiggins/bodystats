@@ -2,6 +2,7 @@ package com.purewowstudio.bodystats.plugins
 
 import com.android.build.gradle.BaseExtension
 import com.purewowstudio.bodystats.plugins.constants.getDefaultPackagingOptions
+import com.purewowstudio.bodystats.plugins.constants.setDefaultCompileOptions
 import com.purewowstudio.bodystats.plugins.constants.setExperimentalWarningsOptIn
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
@@ -41,10 +42,7 @@ class LibraryPlugin : Plugin<Project> {
                 consumerProguardFiles("consumer-rules.pro")
             }
 
-            compileOptions {
-                sourceCompatibility = JavaVersion.VERSION_1_8
-                targetCompatibility = JavaVersion.VERSION_1_8
-            }
+            compileOptions.setDefaultCompileOptions()
 
             buildTypes {
                 getByName("release") {

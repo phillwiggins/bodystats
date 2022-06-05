@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gender">Gender</string>
+    <string name="birthday">Birthday</string>
+    <string name="weight">Weight</string>
+    <string name="height">Height</string>
+    <string name="set">Set</string>
+    <string name="cancel">Cancel</string>
+</resources>

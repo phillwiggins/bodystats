@@ -1,5 +1,5 @@
 <resources>
-    <style name="Platform.Theme.BodyStats" parent="Theme.Material3.DayNight">
+    <style name="Platform.Theme.BodyStats" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:statusBarColor">@color/black30</item>
     </style>
 

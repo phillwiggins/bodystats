@@ -5,11 +5,13 @@ import ModulePlugins
 import Sdk
 import Versions
 import com.android.build.gradle.BaseExtension
-import com.purewowstudio.bodystats.plugins.constants.getDefaultPackagingOptions
+import com.purewowstudio.bodystats.plugins.constants.setDefaultPackagingOptions
 import com.purewowstudio.bodystats.plugins.constants.setExperimentalWarningsOptIn
+import com.purewowstudio.bodystats.plugins.constants.setDefaultCompileOptions
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.dependencies
 
 class AppPlugin : Plugin<Project> {
 
@@ -21,6 +23,7 @@ class AppPlugin : Plugin<Project> {
         with(project) {
             applyPlugins()
             androidConfig()
+            appDependencies()
         }
 
     private fun Project.applyPlugins() {
@@ -43,19 +46,18 @@ class AppPlugin : Plugin<Project> {
                 versionName = App.APP_VERSION_NAME
                 testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
             }
-            compileOptions {
-                sourceCompatibility = JavaVersion.VERSION_1_8
-                targetCompatibility = JavaVersion.VERSION_1_8
-            }
+
             project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class.java)
                 .configureEach {
                     kotlinOptions {
                         jvmTarget = "1.8"
                     }
                 }
+
             sourceSets {
                 getByName("main").java.srcDirs("src/main/kotlin")
             }
+
             buildTypes {
                 getByName("debug") {
                     isMinifyEnabled = false
@@ -87,8 +89,15 @@ class AppPlugin : Plugin<Project> {
                 kotlinCompilerExtensionVersion = Versions.Compose.KOTLIN_COMPILER
             }
 
-            packagingOptions.getDefaultPackagingOptions()
+            setDefaultCompileOptions()
+            setDefaultPackagingOptions()
             setExperimentalWarningsOptIn()
+        }
+    }
+
+    private fun Project.appDependencies() {
+        dependencies {
+            add("coreLibraryDesugaring", Dependencies.Main.DESUGARING)
         }
     }
 }

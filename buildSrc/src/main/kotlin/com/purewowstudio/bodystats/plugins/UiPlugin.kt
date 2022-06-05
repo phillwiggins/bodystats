@@ -2,6 +2,8 @@ package com.purewowstudio.bodystats.plugins
 
 import com.android.build.gradle.BaseExtension
 import com.purewowstudio.bodystats.plugins.constants.getDefaultPackagingOptions
+import com.purewowstudio.bodystats.plugins.constants.setDefaultCompileOptions
+import com.purewowstudio.bodystats.plugins.constants.setDefaultPackagingOptions
 import com.purewowstudio.bodystats.plugins.constants.setExperimentalWarningsOptIn
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
@@ -43,21 +45,24 @@ class UiPlugin : Plugin<Project> {
                 consumerProguardFiles("consumer-rules.pro")
             }
 
-            compileOptions {
-                sourceCompatibility = JavaVersion.VERSION_1_8
-                targetCompatibility = JavaVersion.VERSION_1_8
-            }
-
             sourceSets {
                 getByName("main").java.srcDirs("src/main/kotlin")
             }
+
+            project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class.java)
+                .configureEach {
+                    kotlinOptions {
+                        jvmTarget = "1.8"
+                    }
+                }
 
             lintOptions {
                 isWarningsAsErrors = true
                 isAbortOnError = true
             }
 
-            packagingOptions.getDefaultPackagingOptions()
+            setDefaultCompileOptions()
+            setDefaultPackagingOptions()
             setExperimentalWarningsOptIn()
 
             buildFeatures.compose = true
@@ -70,8 +75,9 @@ class UiPlugin : Plugin<Project> {
 
     private fun Project.appDependencies() {
         dependencies {
+            add("coreLibraryDesugaring", Dependencies.Main.DESUGARING)
+            add("implementation", Dependencies.Main.MATERIAL)
             add("implementation", Dependencies.Compose.ACTIVITIES)
-            // add("implementation", Dependencies.Compose.MATERIAL)
             add("implementation", Dependencies.Compose.MATERIAL3)
             add("implementation", Dependencies.Compose.FONTS)
             add("implementation", Dependencies.Compose.ANIM)

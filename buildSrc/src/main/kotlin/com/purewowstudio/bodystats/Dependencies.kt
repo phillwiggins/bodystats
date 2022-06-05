@@ -6,7 +6,7 @@ object Sdk {
 
 object Versions {
     const val NAVIGATION = "2.4.0"
-    const val MATERIAL = "1.6.0-alpha03"
+    const val MATERIAL = "1.6.1"
     const val ANDROIDX_TEST_EXT = "1.1.1"
     const val ANDROIDX_TEST = "1.2.0"
     const val CORE_KTX = "1.2.0"
@@ -34,6 +34,7 @@ object ModulePlugins {
 object Dependencies {
 
     object Main {
+        const val DESUGARING = "com.android.tools:desugar_jdk_libs:1.1.5"
         const val MATERIAL = "com.google.android.material:material:${Versions.MATERIAL}"
         const val ANDROIDX_NAV_UI = "androidx.navigation:navigation-ui-ktx:${Versions.NAVIGATION}"
     }
