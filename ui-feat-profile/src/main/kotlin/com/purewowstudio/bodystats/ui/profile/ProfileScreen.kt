@@ -16,6 +16,7 @@ import com.purewowstudio.bodystats.ui.common.components.Avatar
 import com.purewowstudio.bodystats.ui.common.components.BSTopAppBar
 import com.purewowstudio.bodystats.ui.common.components.NonEditableTextField
 import com.purewowstudio.bodystats.ui.common.components.dialogs.DOBDialog
+import com.purewowstudio.bodystats.ui.common.components.dialogs.GenderDialog
 import com.purewowstudio.bodystats.ui.common.theme.BodyStatsTheme
 
 @Composable
@@ -32,17 +33,30 @@ fun ProfileScreenContent(
     ) {
 
         val configuration = LocalConfiguration.current
-        val openDialog = remember { mutableStateOf(false) }
+        val openDobDialog = remember { mutableStateOf(false) }
+        val openGenderDialog = remember { mutableStateOf(false) }
         val dateOfBirth = remember { mutableStateOf("15 May 1988") }
 
-        if (openDialog.value) {
+        if (openDobDialog.value) {
             DOBDialog(
                 onConfirmClicked = {
                     dateOfBirth.value = it.toString()
-                    openDialog.value = false
+                    openDobDialog.value = false
                 },
                 onDismiss = {
-                    openDialog.value = false
+                    openDobDialog.value = false
+                }
+            )
+        }
+
+        if (openGenderDialog.value) {
+            GenderDialog(
+                onConfirmClicked = {
+                    // TODO
+                    openGenderDialog.value = false
+                },
+                onDismiss = {
+                    openGenderDialog.value = false
                 }
             )
         }
@@ -75,13 +89,13 @@ fun ProfileScreenContent(
                 modifier = Modifier.width((configuration.screenWidthDp.toFloat() * 0.44F).dp),
                 text = "Male",
                 label = stringResource(id = R.string.gender),
-                onClick = { /* NO OP */ }
+                onClick = { openGenderDialog.value = true }
             )
             NonEditableTextField(
                 modifier = Modifier.width((configuration.screenWidthDp.toFloat() * 0.44F).dp),
                 text = dateOfBirth.value,
                 label = stringResource(id = R.string.birthday),
-                onClick = { openDialog.value = true }
+                onClick = { openDobDialog.value = true }
             )
         }
         Row(
