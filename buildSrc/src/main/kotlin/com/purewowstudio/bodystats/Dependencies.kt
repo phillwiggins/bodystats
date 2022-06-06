@@ -47,6 +47,10 @@ object Dependencies {
             const val COMMON = ":ui-lib-common"
             const val NAVIGATION = ":ui-lib-navigation"
         }
+        object Domain {
+            const val BASE = ":domain-base"
+            const val ENTITIES = ":domain-entities"
+        }
     }
 
     object Compose {

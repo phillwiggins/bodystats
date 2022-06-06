@@ -75,6 +75,9 @@ class UiPlugin : Plugin<Project> {
 
     private fun Project.appDependencies() {
         dependencies {
+            add("implementation", project(Dependencies.Modules.Domain.ENTITIES))
+            add("implementation", project(Dependencies.Modules.Domain.BASE))
+
             add("coreLibraryDesugaring", Dependencies.Main.DESUGARING)
             add("implementation", Dependencies.Main.MATERIAL)
             add("implementation", Dependencies.Compose.ACTIVITIES)

@@ -17,21 +17,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.purewowstudio.bodystats.domain.entities.Gender
+import com.purewowstudio.bodystats.domain.entities.Gender.Female
+import com.purewowstudio.bodystats.domain.entities.Gender.Male
 import com.purewowstudio.bodystats.ui.common.R
 import com.purewowstudio.bodystats.ui.common.theme.BodyStatsTheme
 
 @Composable
 fun GenderDialog(
-    onConfirmClicked: () -> Unit,
+    currentSelection: Gender,
+    onConfirmClicked: (Gender) -> Unit,
     onDismiss: () -> Unit
 ) {
-
-    val radioOptions = listOf(
-        stringResource(id = R.string.male),
-        stringResource(id = R.string.female)
-    )
-
-    val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[1]) }
+    val genders = listOf(Male, Female)
+    val (selectedOption, onOptionSelected) = remember { mutableStateOf(currentSelection) }
 
     Dialog(
         onDismissRequest = onDismiss,
@@ -44,12 +43,12 @@ fun GenderDialog(
             subtitle = stringResource(id = R.string.gender_desc),
             content = {
                 GenderDialogContent(
-                    radioOptions = radioOptions,
+                    radioOptions = genders,
                     onOptionSelected = onOptionSelected,
                     selectedOption = selectedOption
                 )
             },
-            onConfirmClicked = onConfirmClicked,
+            onConfirmClicked = { onConfirmClicked.invoke(selectedOption) },
             onDismiss = onDismiss
         )
     }
@@ -58,9 +57,9 @@ fun GenderDialog(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GenderDialogContent(
-    radioOptions: List<String>,
-    onOptionSelected: (String) -> Unit,
-    selectedOption: String
+    radioOptions: List<Gender>,
+    onOptionSelected: (Gender) -> Unit,
+    selectedOption: Gender
 ) {
 
     Column {
@@ -69,22 +68,22 @@ fun GenderDialogContent(
             thickness = 2.dp,
             color = MaterialTheme.colorScheme.surfaceVariant
         )
-        radioOptions.forEach { text ->
+        radioOptions.forEach { gender ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .selectable(
-                        selected = (text == selectedOption),
-                        onClick = { onOptionSelected(text) }
+                        selected = (gender == selectedOption),
+                        onClick = { onOptionSelected(gender) }
                     ),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
-                    selected = (text == selectedOption),
-                    onClick = { onOptionSelected(text) }
+                    selected = (gender == selectedOption),
+                    onClick = { onOptionSelected(gender) }
                 )
                 Text(
-                    text = text,
+                    text = stringResource(id = gender.name),
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }
@@ -102,6 +101,7 @@ fun GenderDialogContent(
 fun PreviewGenderDialogContent() {
     BodyStatsTheme {
         GenderDialog(
+            currentSelection = Male,
             onConfirmClicked = { /* NO OP*/ },
             onDismiss = { /* NO OP*/ }
         )

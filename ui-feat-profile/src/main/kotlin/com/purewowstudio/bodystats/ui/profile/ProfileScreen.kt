@@ -12,6 +12,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.purewowstudio.bodystats.domain.entities.Gender
 import com.purewowstudio.bodystats.ui.common.components.Avatar
 import com.purewowstudio.bodystats.ui.common.components.BSTopAppBar
 import com.purewowstudio.bodystats.ui.common.components.NonEditableTextField
@@ -36,6 +37,7 @@ fun ProfileScreenContent(
         val openDobDialog = remember { mutableStateOf(false) }
         val openGenderDialog = remember { mutableStateOf(false) }
         val dateOfBirth = remember { mutableStateOf("15 May 1988") }
+        val gender = remember { mutableStateOf<Gender>(Gender.Male) }
 
         if (openDobDialog.value) {
             DOBDialog(
@@ -51,8 +53,9 @@ fun ProfileScreenContent(
 
         if (openGenderDialog.value) {
             GenderDialog(
+                currentSelection = gender.value,
                 onConfirmClicked = {
-                    // TODO
+                    gender.value = it
                     openGenderDialog.value = false
                 },
                 onDismiss = {
@@ -87,7 +90,7 @@ fun ProfileScreenContent(
 
             NonEditableTextField(
                 modifier = Modifier.width((configuration.screenWidthDp.toFloat() * 0.44F).dp),
-                text = "Male",
+                text = stringResource(id = gender.value.name),
                 label = stringResource(id = R.string.gender),
                 onClick = { openGenderDialog.value = true }
             )
