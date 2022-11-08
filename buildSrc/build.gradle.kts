@@ -4,10 +4,10 @@ repositories {
 }
 
 dependencies {
-    implementation("com.android.tools.build:gradle:7.2.1")
-    implementation("com.android.tools.build:gradle-api:7.2.1")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
+    implementation("com.android.tools.build:gradle:7.3.1")
+    implementation("com.android.tools.build:gradle-api:7.3.1")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20")
+    implementation("com.google.dagger:hilt-android-gradle-plugin:2.42")
 }
 
 plugins {
@@ -49,7 +49,7 @@ subprojects {
 
     val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
     compileKotlin.kotlinOptions {
-        languageVersion = "1.8"
+        languageVersion = "11"
     }
 
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
@@ -65,7 +65,7 @@ subprojects {
                 )
             }
 
-            jvmTarget = "1.8"
+            jvmTarget = "11"
         }
     }
 }

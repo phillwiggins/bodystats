@@ -10,7 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.purewowstudio.bodystats.ui.common.theme.BodyStatsTheme
 import com.purewowstudio.bodystats.ui.common.theme.weight
-import com.purewowstudio.bodystats.ui.overview.healthcards.BaseOverviewCard
+import com.purewowstudio.bodystats.ui.overview.healthcards.OverviewCard
 import com.purewowstudio.bodystats.ui.overview.healthcards.OverviewCardUiState
 
 @Composable
@@ -24,7 +24,7 @@ fun WeightDataCardContent(
     modifier: Modifier = Modifier,
     uiState: OverviewCardUiState
 ) {
-    BaseOverviewCard(
+    OverviewCard(
         modifier = modifier,
         title = "Current Weight",
         state = uiState,

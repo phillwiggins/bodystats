@@ -35,7 +35,6 @@ object ModulePlugins {
 object Dependencies {
 
     object Main {
-        // const val DESUGARING = "com.android.tools:desugar_jdk_libs:2.0.0"
         const val MATERIAL = "com.google.android.material:material:1.7.0"
         const val ANDROIDX_NAV_UI = "androidx.navigation:navigation-ui-ktx:2.5.3"
     }
@@ -53,11 +52,13 @@ object Dependencies {
             const val COMMON = ":ui-lib-common"
             const val NAVIGATION = ":ui-lib-navigation"
         }
+
         object Domain {
             const val BASE = ":domain-base"
             const val ENTITIES = ":domain-entities"
             const val HEALTH_DATA = ":domain-healthdata"
         }
+
         object Data {
             const val HEALTH_CONNECT = ":data-healthconnect"
         }

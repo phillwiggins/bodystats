@@ -6,11 +6,8 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -19,11 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.purewowstudio.bodystats.ui.common.theme.BodyStatsTheme
 import com.purewowstudio.bodystats.ui.overview.actions.ActionsView
-import com.purewowstudio.bodystats.ui.overview.healthcards.burnt.CaloriesBurntDataCard
-import com.purewowstudio.bodystats.ui.overview.healthcards.calories.CaloriesDataCard
-import com.purewowstudio.bodystats.ui.overview.healthcards.sleep.SleepDataCard
-import com.purewowstudio.bodystats.ui.overview.healthcards.steps.StepsDataCard
-import com.purewowstudio.bodystats.ui.overview.healthcards.weight.WeightDataCard
+import com.purewowstudio.bodystats.ui.overview.healthcards.DataCardsView
 
 @Composable
 fun OverviewScreen() {
@@ -51,7 +44,7 @@ fun OverviewScreen() {
 }
 
 @Composable
-fun OverviewScreenContent(
+internal fun OverviewScreenContent(
     modifier: Modifier = Modifier,
     uiState: OverviewUiState,
     onPermissionsButtonClicked: () -> Unit,
@@ -63,37 +56,15 @@ fun OverviewScreenContent(
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        if (uiState.isLoading) {
-            CircularProgressIndicator()
-        }
-
-        if (uiState.showActionsView) {
-            ActionsView(
+        when (uiState) {
+            is OverviewUiState.ActionsRequired -> ActionsView(
                 isConnectButtonEnabled = uiState.isConnectEnabled,
                 isPermissionsButtonEnabled = uiState.isPermissionsEnabled,
                 onConnectButtonClicked = onConnectButtonClicked,
                 onPermissionsButtonClicked = onPermissionsButtonClicked
             )
-        }
-
-        if (uiState.showDataCards) {
-            Text(
-                text = "LAST 24 HOURS",
-                color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.labelSmall
-            )
-            Spacer(modifier = modifier.height(8.dp))
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                item { SleepDataCard() }
-                item { WeightDataCard() }
-                item { CaloriesDataCard() }
-                item { CaloriesBurntDataCard() }
-                item { StepsDataCard() }
-            }
+            OverviewUiState.DataCards -> DataCardsView()
+            OverviewUiState.Loading -> CircularProgressIndicator()
         }
     }
 }
@@ -103,9 +74,7 @@ fun OverviewScreenContent(
 fun OverviewScreenPreviewDark() {
     BodyStatsTheme {
         OverviewScreenContent(
-            uiState = OverviewUiState(
-                showActionsView = true,
-                showDataCards = true,
+            uiState = OverviewUiState.ActionsRequired(
                 isConnectEnabled = true,
                 isPermissionsEnabled = true,
             ),
@@ -120,9 +89,7 @@ fun OverviewScreenPreviewDark() {
 fun OverviewScreenPreviewLight() {
     BodyStatsTheme {
         OverviewScreenContent(
-            uiState = OverviewUiState(
-                showActionsView = true,
-                showDataCards = true,
+            uiState = OverviewUiState.ActionsRequired(
                 isConnectEnabled = true,
                 isPermissionsEnabled = true,
             ),

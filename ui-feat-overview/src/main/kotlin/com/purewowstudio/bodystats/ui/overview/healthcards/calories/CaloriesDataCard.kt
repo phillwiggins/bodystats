@@ -10,7 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.purewowstudio.bodystats.ui.common.theme.BodyStatsTheme
 import com.purewowstudio.bodystats.ui.common.theme.caloriesConsumed
-import com.purewowstudio.bodystats.ui.overview.healthcards.BaseOverviewCard
+import com.purewowstudio.bodystats.ui.overview.healthcards.OverviewCard
 import com.purewowstudio.bodystats.ui.overview.healthcards.OverviewCardUiState
 
 @Composable
@@ -21,7 +21,7 @@ fun CaloriesDataCard() {
 
 @Composable
 fun CaloriesDataCardContent(modifier: Modifier = Modifier, uiState: OverviewCardUiState) {
-    BaseOverviewCard(
+    OverviewCard(
         modifier = modifier,
         title = "Kcal Eaten",
         state = uiState,

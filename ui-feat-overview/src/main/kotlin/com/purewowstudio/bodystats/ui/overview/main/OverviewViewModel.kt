@@ -14,20 +14,12 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class OverviewUiState(
-    val isLoading: Boolean = true,
-    val showDataCards: Boolean = false,
-    val showActionsView: Boolean = false,
-    val isConnectEnabled: Boolean = false,
-    val isPermissionsEnabled: Boolean = false
-)
-
 @HiltViewModel
-class OverviewViewModel @Inject constructor(
+internal class OverviewViewModel @Inject constructor(
     private val healthData: HealthData
 ) : ViewModel() {
 
-    var uiState by mutableStateOf(OverviewUiState())
+    var uiState by mutableStateOf<OverviewUiState>(OverviewUiState.Loading)
         private set
 
     init {
@@ -48,15 +40,16 @@ class OverviewViewModel @Inject constructor(
         val showActionsView = !it.isAvailable || !it.isPermissionsGranted
         val isConnectEnabled = !it.isAvailable
         val isPermissionsEnabled = it.isAvailable && !it.isPermissionsGranted
-        val showDataCards = it.isAvailable && it.isPermissionsGranted
 
-        uiState = uiState.copy(
-            isLoading = false,
-            showActionsView = showActionsView,
-            isConnectEnabled = isConnectEnabled,
-            isPermissionsEnabled = isPermissionsEnabled,
-            showDataCards = showDataCards
-        )
+        uiState = if (showActionsView) {
+            OverviewUiState.ActionsRequired(
+                isConnectEnabled = isConnectEnabled,
+                isPermissionsEnabled = isPermissionsEnabled
+            )
+        } else {
+            OverviewUiState.DataCards
+        }
+
     }
 
     fun onPermissionsResult() {
