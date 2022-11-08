@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gender">Gender</string>
+    <string name="birthday">Birthday</string>
+    <string name="weight">Weight</string>
+    <string name="height">Height</string>
+    <string name="set">Set</string>
+    <string name="cancel">Cancel</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="date_of_birth_desc">Tell us your date of birth so that we can accurately calculate your body stats. </string>
+    <string name="gender_desc">Tell us your gender so that we can accurately calculate your body stats. </string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+</resources>

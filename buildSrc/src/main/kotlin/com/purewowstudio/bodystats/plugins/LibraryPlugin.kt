@@ -7,6 +7,7 @@ import com.purewowstudio.bodystats.plugins.constants.setExperimentalWarningsOptI
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.dependencies
 
 class LibraryPlugin : Plugin<Project> {
 
@@ -18,12 +19,15 @@ class LibraryPlugin : Plugin<Project> {
             with(project) {
                 applyPlugins()
                 androidConfig()
+                appDependencies()
             }
 
     private fun Project.applyPlugins() {
         plugins.run {
             apply(ModulePlugins.ANDROID_LIBRARY)
             apply(ModulePlugins.KOTLIN_ANDROID)
+            apply(ModulePlugins.KOTLIN_KAPT)
+            apply(ModulePlugins.HILT)
         }
     }
 
@@ -66,5 +70,11 @@ class LibraryPlugin : Plugin<Project> {
             packagingOptions.getDefaultPackagingOptions()
             setExperimentalWarningsOptIn()
         }
+    }
+
+    private fun Project.appDependencies() {
+        dependencies {
+            add("implementation",Dependencies.DI.HILT)
+            add("kapt", Dependencies.DI.HILT_KAPT) }
     }
 }

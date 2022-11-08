@@ -6,4 +6,5 @@ plugins {
 
 dependencies {
     implementation(project(Dependencies.Modules.UI.COMMON))
+    implementation(project(Dependencies.Modules.Domain.HEALTH_DATA))
 }

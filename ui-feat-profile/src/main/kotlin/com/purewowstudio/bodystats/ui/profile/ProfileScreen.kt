@@ -14,7 +14,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.purewowstudio.bodystats.domain.entities.Gender
 import com.purewowstudio.bodystats.ui.common.components.Avatar
-import com.purewowstudio.bodystats.ui.common.components.BSTopAppBar
 import com.purewowstudio.bodystats.ui.common.components.NonEditableTextField
 import com.purewowstudio.bodystats.ui.common.components.dialogs.DOBDialog
 import com.purewowstudio.bodystats.ui.common.components.dialogs.GenderDialog
@@ -26,9 +25,7 @@ fun ProfileScreen() {
 }
 
 @Composable
-fun ProfileScreenContent(
-
-) {
+fun ProfileScreenContent() {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -63,12 +60,6 @@ fun ProfileScreenContent(
                 }
             )
         }
-
-        BSTopAppBar(
-            title = "Profile",
-            addMoreMenu = true,
-            onMoreMenuClicked = { /* TODO */ }
-        )
         Avatar()
         Text(
             modifier = Modifier.padding(top = 16.dp),
@@ -87,7 +78,6 @@ fun ProfileScreenContent(
                 .padding(top = 16.dp),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-
             NonEditableTextField(
                 modifier = Modifier.width((configuration.screenWidthDp.toFloat() * 0.44F).dp),
                 text = stringResource(id = gender.value.name),

@@ -11,6 +11,9 @@ dependencies {
     implementation(Dependencies.Compose.ACTIVITIES)
     implementation(Dependencies.Compose.TOOLING)
 
+    implementation(project(Dependencies.Modules.Data.HEALTH_CONNECT))
+    implementation(project(Dependencies.Modules.Domain.HEALTH_DATA))
+
     testImplementation(TestingLib.JUNIT)
 
     androidTestImplementation(AndroidTestingLib.ANDROIDX_TEST_EXT_JUNIT)

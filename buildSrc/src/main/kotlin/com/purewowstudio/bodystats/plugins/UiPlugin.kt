@@ -27,6 +27,8 @@ class UiPlugin : Plugin<Project> {
         plugins.run {
             apply(ModulePlugins.ANDROID_LIBRARY)
             apply(ModulePlugins.KOTLIN_ANDROID)
+            apply(ModulePlugins.KOTLIN_KAPT)
+            apply(ModulePlugins.HILT)
         }
     }
 
@@ -52,7 +54,7 @@ class UiPlugin : Plugin<Project> {
             project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class.java)
                 .configureEach {
                     kotlinOptions {
-                        jvmTarget = "1.8"
+                        jvmTarget = "11"
                     }
                 }
 
@@ -78,7 +80,10 @@ class UiPlugin : Plugin<Project> {
             add("implementation", project(Dependencies.Modules.Domain.ENTITIES))
             add("implementation", project(Dependencies.Modules.Domain.BASE))
 
-            add("coreLibraryDesugaring", Dependencies.Main.DESUGARING)
+            add("implementation",Dependencies.DI.HILT)
+            add("kapt", Dependencies.DI.HILT_KAPT)
+
+            // add("coreLibraryDesugaring", Dependencies.Main.DESUGARING)
             add("implementation", Dependencies.Main.MATERIAL)
             add("implementation", Dependencies.Compose.ACTIVITIES)
             add("implementation", Dependencies.Compose.MATERIAL3)
@@ -87,6 +92,7 @@ class UiPlugin : Plugin<Project> {
             add("implementation", Dependencies.Compose.VIEWMODEL)
             add("implementation", Dependencies.Compose.TOOLING)
             add("implementation", Dependencies.Compose.NAVIGATION)
+            add("implementation", Dependencies.Compose.NAVIGATION_HILT)
             add("implementation", Dependencies.Compose.ICONS)
         }
     }

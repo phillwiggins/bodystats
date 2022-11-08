@@ -5,6 +5,7 @@ import ModulePlugins
 import Sdk
 import Versions
 import com.android.build.gradle.BaseExtension
+import com.android.build.gradle.internal.packaging.defaultExcludes
 import com.purewowstudio.bodystats.plugins.constants.setDefaultPackagingOptions
 import com.purewowstudio.bodystats.plugins.constants.setExperimentalWarningsOptIn
 import com.purewowstudio.bodystats.plugins.constants.setDefaultCompileOptions
@@ -30,6 +31,8 @@ class AppPlugin : Plugin<Project> {
         plugins.run {
             apply(ModulePlugins.ANDROID_APP)
             apply(ModulePlugins.KOTLIN_ANDROID)
+            apply(ModulePlugins.KOTLIN_KAPT)
+            apply(ModulePlugins.HILT)
         }
     }
 
@@ -50,7 +53,7 @@ class AppPlugin : Plugin<Project> {
             project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class.java)
                 .configureEach {
                     kotlinOptions {
-                        jvmTarget = "1.8"
+                        jvmTarget = "11"
                     }
                 }
 
@@ -97,7 +100,16 @@ class AppPlugin : Plugin<Project> {
 
     private fun Project.appDependencies() {
         dependencies {
-            add("coreLibraryDesugaring", Dependencies.Main.DESUGARING)
+            // add("coreLibraryDesugaring", Dependencies.Main.DESUGARING)
+
+            add("implementation",Dependencies.DI.HILT)
+            add("kapt", Dependencies.DI.HILT_KAPT)
+        }
+
+        configurations.all {
+            resolutionStrategy {
+                force("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
+            }
         }
     }
 }

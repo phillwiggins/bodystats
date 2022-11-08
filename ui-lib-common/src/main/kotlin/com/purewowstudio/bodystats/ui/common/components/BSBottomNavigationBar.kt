@@ -7,7 +7,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -17,7 +16,10 @@ import com.purewowstudio.bodystats.ui.common.theme.BodyStatsTheme
 import com.purewowstudio.bodystats.ui.navigation.NavBarItems
 
 @Composable
-fun BSBottomNavigationBar(navController: NavHostController) {
+fun BSBottomNavigationBar(
+    navController: NavHostController,
+    setNavName: (String) -> Unit,
+) {
     BottomNavigation(
         backgroundColor = MaterialTheme.colorScheme.background,
     ) {
@@ -26,10 +28,14 @@ fun BSBottomNavigationBar(navController: NavHostController) {
         val currentRoute = backStackEntry?.destination?.route
 
         NavBarItems.BarItems.forEach { navItem ->
+
+            val isSelected = currentRoute == navItem.route
+            if (isSelected) setNavName(navItem.title)
+
             BottomNavigationItem(
-                selectedContentColor = Color.Green,
-                unselectedContentColor = Color.Red,
-                selected = currentRoute == navItem.route,
+                selectedContentColor = MaterialTheme.colorScheme.primary,
+                unselectedContentColor = MaterialTheme.colorScheme.surface,
+                selected = isSelected,
                 onClick = {
                     navController.navigate(navItem.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
@@ -41,12 +47,14 @@ fun BSBottomNavigationBar(navController: NavHostController) {
                 },
                 icon = {
                     Icon(
+                        tint = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
                         imageVector = navItem.image,
                         contentDescription = navItem.title
                     )
                 },
                 label = {
                     Text(
+                        color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
                         text = navItem.title,
                         style = MaterialTheme.typography.labelMedium
                     )
@@ -61,6 +69,6 @@ fun BSBottomNavigationBar(navController: NavHostController) {
 fun BottomAppBarPreview() {
     val navController = rememberNavController()
     BodyStatsTheme {
-        BSBottomNavigationBar(navController = navController)
+        BSBottomNavigationBar(navController = navController, setNavName = {})
     }
 }
