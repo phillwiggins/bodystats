@@ -14,9 +14,9 @@ import com.purewowstudio.bodystats.ui.overview.healthcards.OverviewCard
 import com.purewowstudio.bodystats.ui.overview.healthcards.OverviewCardUiState
 
 @Composable
-fun CaloriesBurntDataCard() {
+fun CaloriesBurntDataCard(modifier: Modifier = Modifier) {
     val viewModel = hiltViewModel<CaloriesBurntDataCardViewModel>()
-    CaloriesBurntDataCardContent(uiState = viewModel.uiState)
+    CaloriesBurntDataCardContent(modifier = modifier, uiState = viewModel.uiState)
 }
 
 @Composable

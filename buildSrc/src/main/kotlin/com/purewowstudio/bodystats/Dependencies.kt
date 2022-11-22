@@ -77,6 +77,10 @@ object Dependencies {
         const val VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
         const val ICONS = "androidx.compose.material:material-icons-extended:1.3.0"
     }
+
+    object UI {
+        const val CHARTS = "com.himanshoe:charty:1.0.1"
+    }
 }
 
 object TestingLib {

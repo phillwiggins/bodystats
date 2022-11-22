@@ -83,7 +83,7 @@ class UiPlugin : Plugin<Project> {
             add("implementation",Dependencies.DI.HILT)
             add("kapt", Dependencies.DI.HILT_KAPT)
 
-            // add("coreLibraryDesugaring", Dependencies.Main.DESUGARING)
+            add("implementation", Dependencies.UI.CHARTS)
             add("implementation", Dependencies.Main.MATERIAL)
             add("implementation", Dependencies.Compose.ACTIVITIES)
             add("implementation", Dependencies.Compose.MATERIAL3)

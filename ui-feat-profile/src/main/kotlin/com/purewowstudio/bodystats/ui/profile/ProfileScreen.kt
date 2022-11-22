@@ -1,6 +1,9 @@
 package com.purewowstudio.bodystats.ui.profile
 
+import android.content.res.Configuration.UI_MODE_NIGHT_NO
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,12 +28,11 @@ fun ProfileScreen() {
 }
 
 @Composable
-fun ProfileScreenContent() {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+fun ProfileScreenContent(
+    modifier: Modifier = Modifier
+) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-        val configuration = LocalConfiguration.current
         val openDobDialog = remember { mutableStateOf(false) }
         val openGenderDialog = remember { mutableStateOf(false) }
         val dateOfBirth = remember { mutableStateOf("15 May 1988") }
@@ -70,52 +72,73 @@ fun ProfileScreenContent() {
         Text(
             text = "Something Something",
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4F)
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6F)
         )
-        Row(
-            modifier = Modifier
+        Spacer(modifier = modifier.height(16.dp))
+        Column(
+            modifier = modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly
+                .padding(16.dp)
         ) {
-            NonEditableTextField(
-                modifier = Modifier.width((configuration.screenWidthDp.toFloat() * 0.44F).dp),
-                text = stringResource(id = gender.value.name),
-                label = stringResource(id = R.string.gender),
-                onClick = { openGenderDialog.value = true }
+            Text(
+                text = "ABOUT YOU",
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.labelSmall
             )
-            NonEditableTextField(
-                modifier = Modifier.width((configuration.screenWidthDp.toFloat() * 0.44F).dp),
-                text = dateOfBirth.value,
-                label = stringResource(id = R.string.birthday),
-                onClick = { openDobDialog.value = true }
-            )
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            NonEditableTextField(
-                modifier = Modifier.width((configuration.screenWidthDp.toFloat() * 0.44F).dp),
-                text = "188lbs",
-                label = stringResource(id = R.string.weight),
-                onClick = { /* NO OP */ }
-            )
-            NonEditableTextField(
-                modifier = Modifier.width((configuration.screenWidthDp.toFloat() * 0.44F).dp),
-                text = "187cm",
-                label = stringResource(id = R.string.height),
-                onClick = { /* NO OP */ }
-            )
+            Spacer(modifier = modifier.height(8.dp))
+            ElevatedCard {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Row(horizontalArrangement = Arrangement.SpaceBetween) {
+                        NonEditableTextField(
+                            modifier = Modifier.weight(0.5F, false),
+                            text = stringResource(id = gender.value.name),
+                            label = stringResource(id = R.string.gender),
+                            onClick = { openGenderDialog.value = true }
+                        )
+                        Spacer(modifier = modifier.width(8.dp))
+                        NonEditableTextField(
+                            modifier = Modifier.weight(0.5F, false),
+                            text = dateOfBirth.value,
+                            label = stringResource(id = R.string.birthday),
+                            onClick = { openDobDialog.value = true }
+                        )
+                    }
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.dp),
+                    ) {
+                        NonEditableTextField(
+                            modifier = Modifier.weight(0.5F, false),
+                            text = "188lbs",
+                            label = stringResource(id = R.string.weight),
+                            onClick = { /* NO OP */ }
+                        )
+                        Spacer(modifier = modifier.width(8.dp))
+                        NonEditableTextField(
+                            modifier = Modifier.weight(0.5F, false),
+                            text = "187cm",
+                            label = stringResource(id = R.string.height),
+                            onClick = { /* NO OP */ }
+                        )
+                    }
+                }
+            }
         }
     }
 }
 
-@Preview
+@Preview(uiMode = UI_MODE_NIGHT_NO)
 @Composable
-fun ProfileScreenPreview() {
+fun ProfileScreenPreviewLight() {
+    BodyStatsTheme {
+        ProfileScreen()
+    }
+}
+
+@Preview(uiMode = UI_MODE_NIGHT_YES)
+@Composable
+fun ProfileScreenPreviewDark() {
     BodyStatsTheme {
         ProfileScreen()
     }

@@ -7,6 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.purewowstudio.bodystats.domain.healthdata.HealthDataCalories
+import com.purewowstudio.bodystats.domain.healthdata.models.CaloriesConsumed
 import com.purewowstudio.bodystats.ui.overview.healthcards.OverviewCardUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -33,12 +34,12 @@ class CaloriesDataCardViewModel @Inject constructor(
         uiState = OverviewCardUiState.Error
     }
 
-    private fun onCaloriesDataReturned(calories: Int?) {
-        uiState = if (calories == null) {
+    private fun onCaloriesDataReturned(calories: CaloriesConsumed) {
+        uiState = if (calories.consumed == 0) {
             OverviewCardUiState.NoData
         } else {
             OverviewCardUiState.Loaded(
-                amount = "$calories",
+                amount = calories.consumed.toString(),
                 type = "kcals"
             )
         }

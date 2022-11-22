@@ -10,6 +10,8 @@ import com.purewowstudio.bodystats.domain.healthdata.HealthDataSteps
 import com.purewowstudio.bodystats.ui.overview.healthcards.OverviewCardUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,11 +22,23 @@ class StepsDataCardViewModel @Inject constructor(
     var uiState by mutableStateOf<OverviewCardUiState>(OverviewCardUiState.Loading)
         private set
 
-    init {
+
+    fun setInitialDate(date: LocalDate) {
         viewModelScope.launch {
-            stepsDataCalories.readSteps()
-                .onSuccess(::onStepsDataReturned)
-                .onFailure(::onStepsDataFailureReturned)
+            stepsDataCalories.readSteps(
+                until = LocalDateTime.now()
+                    .withYear(date.year)
+                    .withDayOfYear(date.dayOfYear)
+                    .withMinute(59)
+                    .withHour(23),
+                from = LocalDateTime.now()
+                    .withYear(date.year)
+                    .withDayOfYear(date.dayOfYear)
+                    .withMinute(0)
+                    .withHour(0)
+            )
+                .onSuccess { onStepsDataReturned(it) }
+                .onFailure { onStepsDataFailureReturned(it) }
         }
     }
 

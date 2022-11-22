@@ -3,7 +3,10 @@ package com.purewowstudio.bodystats.data.healthconnect.data
 import android.content.Context
 import android.os.RemoteException
 import androidx.health.connect.client.HealthConnectClient
+import androidx.health.connect.client.records.SleepSessionRecord
+import androidx.health.connect.client.records.SleepStageRecord
 import androidx.health.connect.client.records.StepsRecord
+import androidx.health.connect.client.request.AggregateRequest
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 import com.purewowstudio.bodystats.domain.healthdata.HealthDataSteps
@@ -24,12 +27,12 @@ internal class HealthDataStepsImpl @Inject constructor(
     ): Result<Int?> {
         return try {
             val sessionTimeFilter = TimeRangeFilter.between(from, until)
-            val stepsRequest = ReadRecordsRequest(
-                recordType = StepsRecord::class,
+            val durationAggregateRequest = AggregateRequest(
+                metrics = setOf(StepsRecord.COUNT_TOTAL),
                 timeRangeFilter = sessionTimeFilter
             )
-            val stepsResponse = healthConnectClient.readRecords(stepsRequest)
-            return Result.success(stepsResponse.records.firstOrNull()?.count?.toInt() ?: 0)
+            val aggregateResponse = healthConnectClient.aggregate(durationAggregateRequest)
+            return Result.success(aggregateResponse[StepsRecord.COUNT_TOTAL]?.toInt() ?: 0)
         } catch (exception: RemoteException) {
             Result.failure(exception)
         } catch (exception: SecurityException) {

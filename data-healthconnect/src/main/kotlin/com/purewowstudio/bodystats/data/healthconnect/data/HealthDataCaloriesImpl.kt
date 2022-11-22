@@ -9,6 +9,7 @@ import androidx.health.connect.client.request.AggregateRequest
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 import com.purewowstudio.bodystats.domain.healthdata.HealthDataCalories
+import com.purewowstudio.bodystats.domain.healthdata.models.CaloriesConsumed
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.IOException
 import java.time.LocalDateTime
@@ -58,7 +59,7 @@ internal class HealthDataCaloriesImpl @Inject constructor(
     override suspend fun readConsumedToday(
         from: LocalDateTime,
         until: LocalDateTime
-    ): Result<Int?> {
+    ): Result<CaloriesConsumed> {
         return try {
             val sessionTimeFilter = TimeRangeFilter.between(from, until)
             val durationAggregateRequest = AggregateRequest(
@@ -75,11 +76,28 @@ internal class HealthDataCaloriesImpl @Inject constructor(
             val response = healthConnectClient.readRecords(nutritionRequest)
             val record = response.records.firstOrNull()
 
+            val burntResponse = readBurntToday(from, until)
+            val burntAmount = burntResponse.getOrNull() ?: 0
+
             if (record == null) {
-                Result.success(null)
+                Result.success(
+                    CaloriesConsumed(
+                        burnt = 0,
+                        consumed = 0,
+                        proteinGram = 0,
+                        carbGram = 0,
+                        fatGrm = 0
+                    )
+                )
             } else {
                 Result.success(
-                    aggregateResponse[NutritionRecord.ENERGY_TOTAL]?.inKilocalories?.toInt()
+                    CaloriesConsumed(
+                        burnt = burntAmount,
+                        consumed = aggregateResponse[NutritionRecord.ENERGY_TOTAL]?.inKilocalories?.toInt() ?: 0,
+                        proteinGram = aggregateResponse[NutritionRecord.PROTEIN_TOTAL]?.inGrams?.toInt() ?: 0,
+                        carbGram = aggregateResponse[NutritionRecord.TOTAL_CARBOHYDRATE_TOTAL]?.inGrams?.toInt() ?: 0,
+                        fatGrm = aggregateResponse[NutritionRecord.TOTAL_FAT_TOTAL]?.inGrams?.toInt() ?: 0,
+                    )
                 )
             }
         } catch (exception: RemoteException) {

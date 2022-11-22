@@ -12,6 +12,8 @@ import com.purewowstudio.bodystats.domain.healthdata.models.SleepSession
 import com.purewowstudio.bodystats.ui.overview.healthcards.OverviewCardUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
@@ -24,9 +26,20 @@ class SleepDataCardViewModel @Inject constructor(
     var uiState by mutableStateOf<OverviewCardUiState>(OverviewCardUiState.Loading)
         private set
 
-    init {
+    fun setInitialDate(date: LocalDate) {
         viewModelScope.launch {
-            sleepData.readSleepSessions()
+            sleepData.readSleepSessions(
+                    until = LocalDateTime.now()
+                        .withYear(date.year)
+                        .withDayOfYear(date.dayOfYear)
+                        .withMinute(59)
+                        .withHour(23),
+                    from = LocalDateTime.now()
+                        .withYear(date.year)
+                        .withDayOfYear(date.dayOfYear)
+                        .withMinute(0)
+                        .withHour(0)
+                )
                 .onSuccess(::onSleepDataReturned)
                 .onFailure(::onSleepDataFailureReturned)
         }

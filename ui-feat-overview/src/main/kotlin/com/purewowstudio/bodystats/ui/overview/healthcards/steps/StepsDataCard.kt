@@ -12,10 +12,13 @@ import com.purewowstudio.bodystats.ui.common.theme.BodyStatsTheme
 import com.purewowstudio.bodystats.ui.common.theme.steps
 import com.purewowstudio.bodystats.ui.overview.healthcards.OverviewCard
 import com.purewowstudio.bodystats.ui.overview.healthcards.OverviewCardUiState
+import java.time.LocalDate
 
 @Composable
-fun StepsDataCard() {
-    val viewModel = hiltViewModel<StepsDataCardViewModel>()
+fun StepsDataCard(date: LocalDate) {
+    val viewModel = hiltViewModel<StepsDataCardViewModel>().apply {
+        setInitialDate(date)
+    }
     StepsDataCardContent(uiState = viewModel.uiState)
 }
 

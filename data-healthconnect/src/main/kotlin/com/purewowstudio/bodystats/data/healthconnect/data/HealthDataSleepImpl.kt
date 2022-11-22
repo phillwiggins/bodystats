@@ -12,8 +12,7 @@ import com.purewowstudio.bodystats.domain.healthdata.HealthDataSleep
 import com.purewowstudio.bodystats.domain.healthdata.models.SleepSession
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.IOException
-import java.time.ZonedDateTime
-import java.time.temporal.ChronoUnit
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 internal class HealthDataSleepImpl @Inject constructor(
@@ -22,16 +21,18 @@ internal class HealthDataSleepImpl @Inject constructor(
 
     private val healthConnectClient by lazy { HealthConnectClient.getOrCreate(context) }
 
-    override suspend fun readSleepSessions(days: Int): Result<List<SleepSession>> {
-        val lastDay = ZonedDateTime.now().truncatedTo(ChronoUnit.DAYS)
-            .withHour(12)
-        val firstDay = lastDay
-            .minusDays(1)
+    override suspend fun readSleepSessions(
+        from: LocalDateTime,
+        until: LocalDateTime
+    ): Result<List<SleepSession>> {
 
         val sessions = mutableListOf<SleepSession>()
         val sleepSessionRequest = ReadRecordsRequest(
             recordType = SleepSessionRecord::class,
-            timeRangeFilter = TimeRangeFilter.between(firstDay.toInstant(), lastDay.toInstant()),
+            timeRangeFilter = TimeRangeFilter.between(
+                from.minusHours(12),
+                until
+            ),
             ascendingOrder = false
         )
 

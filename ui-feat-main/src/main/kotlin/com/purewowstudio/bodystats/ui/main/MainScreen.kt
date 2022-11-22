@@ -4,6 +4,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.toUpperCase
 import androidx.navigation.compose.rememberNavController
 import com.purewowstudio.bodystats.ui.common.components.BSBottomNavigationBar
 import com.purewowstudio.bodystats.ui.common.components.BSTopAppBar
@@ -19,7 +21,7 @@ fun MainScreen() {
     BodyStatsTheme {
         Scaffold(
             topBar = {
-                BSTopAppBar(title = navName.value)
+                BSTopAppBar(title = navName.value.toUpperCase(Locale.current))
             },
             content = { padding ->
                 NavigationHost(

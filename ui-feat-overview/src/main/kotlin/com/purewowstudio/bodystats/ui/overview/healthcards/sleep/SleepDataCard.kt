@@ -12,11 +12,15 @@ import com.purewowstudio.bodystats.ui.common.theme.BodyStatsTheme
 import com.purewowstudio.bodystats.ui.common.theme.sleep
 import com.purewowstudio.bodystats.ui.overview.healthcards.OverviewCard
 import com.purewowstudio.bodystats.ui.overview.healthcards.OverviewCardUiState
+import java.time.LocalDate
 
 @Composable
-fun SleepDataCard() {
-    val viewModel = hiltViewModel<SleepDataCardViewModel>()
-    SleepDataCardContent(uiState = viewModel.uiState)
+fun SleepDataCard(
+    modifier: Modifier = Modifier,
+    date: LocalDate
+) {
+    val viewModel = hiltViewModel<SleepDataCardViewModel>().apply { setInitialDate(date) }
+    SleepDataCardContent(modifier = modifier, uiState = viewModel.uiState)
 }
 
 @Composable

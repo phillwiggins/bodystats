@@ -90,7 +90,7 @@ fun BodyStatsTheme(
 
     MaterialTheme(
         colorScheme = myColorScheme,
-        // typography = BodyStatsTypography,
+        typography = BodyStatsTypography,
         content = content,
         shapes = BodyStatsShapes
     )

@@ -14,9 +14,12 @@ import com.purewowstudio.bodystats.ui.overview.healthcards.OverviewCard
 import com.purewowstudio.bodystats.ui.overview.healthcards.OverviewCardUiState
 
 @Composable
-fun WeightDataCard() {
+fun WeightDataCard(modifier: Modifier = Modifier) {
     val viewModel = hiltViewModel<WeightDataCardViewModel>()
-    WeightDataCardContent(uiState = viewModel.uiState)
+    WeightDataCardContent(
+        modifier = modifier,
+        uiState = viewModel.uiState
+    )
 }
 
 @Composable

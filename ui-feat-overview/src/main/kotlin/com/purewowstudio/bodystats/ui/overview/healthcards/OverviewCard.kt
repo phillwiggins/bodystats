@@ -11,6 +11,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.purewowstudio.bodystats.ui.common.theme.colorOnCustom
 
@@ -22,18 +25,18 @@ fun OverviewCard(
     backgroundColor: Color,
     icon: ImageVector
 ) {
-    ElevatedCard(
-        modifier = modifier.fillMaxSize(),
-    ) {
+    ElevatedCard(modifier = modifier.height(160.dp)) {
         Box(
-            modifier = modifier.background(
-                brush = Brush.horizontalGradient(
-                    colors = listOf(
-                        backgroundColor.copy(alpha = 0.75F),
-                        backgroundColor
+            modifier = modifier
+                .background(
+                    brush = Brush.horizontalGradient(
+                        colors = listOf(
+                            backgroundColor.copy(alpha = 0.75F),
+                            backgroundColor
+                        )
                     )
                 )
-            ).fillMaxSize()
+                .fillMaxSize()
         ) {
             Column(modifier = modifier.padding(12.dp)) {
                 Column {
@@ -84,16 +87,34 @@ fun OverviewCard(
                     is OverviewCardUiState.Loaded -> Row(
                         verticalAlignment = Alignment.Bottom
                     ) {
+                        val amountTextStyle = MaterialTheme.typography.headlineSmall
+                        val typeTextStyle = MaterialTheme.typography.bodySmall
                         Text(
-                            color = MaterialTheme.colorScheme.colorOnCustom,
-                            style = MaterialTheme.typography.headlineMedium,
-                            text = state.amount,
-                        )
-                        Spacer(modifier = modifier.width(4.dp))
-                        Text(
-                            color = MaterialTheme.colorScheme.colorOnCustom,
-                            style = MaterialTheme.typography.titleMedium,
-                            text = state.type
+                            buildAnnotatedString {
+                                withStyle(
+                                    style = SpanStyle(
+                                        fontSize = amountTextStyle.fontSize,
+                                        color = MaterialTheme.colorScheme.colorOnCustom,
+                                        fontStyle = amountTextStyle.fontStyle,
+                                        fontFamily = amountTextStyle.fontFamily,
+                                        fontWeight = amountTextStyle.fontWeight
+                                    )
+                                ) {
+                                    append(state.amount)
+                                }
+                                append(" ")
+                                withStyle(
+                                    style = SpanStyle(
+                                        fontSize = typeTextStyle.fontSize,
+                                        color = MaterialTheme.colorScheme.colorOnCustom,
+                                        fontStyle = typeTextStyle.fontStyle,
+                                        fontFamily = typeTextStyle.fontFamily,
+                                        fontWeight = typeTextStyle.fontWeight
+                                    )
+                                ) {
+                                    append(state.type)
+                                }
+                            }
                         )
                     }
                 }

@@ -4,6 +4,9 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
+private val customColorConstructive = Color(0xFF1CCC41)
+private val customColorDestructive = Color(0xFFE40808)
+
 private val customColorWeightLight = Color(0xFF38b552)
 private val customColorWeightDark = Color(0xFF000000)
 
@@ -20,6 +23,14 @@ private val customColorStepsLight = Color(0xFFc861fa)
 private val customColorStepsDark = Color(0xFF000000)
 
 private val customColorPrimaryText = Color(0xFFffffff)
+
+@get:Composable
+val ColorScheme.constructive: Color
+    get() =  customColorConstructive
+
+@get:Composable
+val ColorScheme.destructive: Color
+    get() =  customColorDestructive
 
 @get:Composable
 val ColorScheme.caloriesBurnt: Color
