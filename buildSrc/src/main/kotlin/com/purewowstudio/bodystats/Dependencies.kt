@@ -35,13 +35,17 @@ object ModulePlugins {
 object Dependencies {
 
     object Main {
+        const val DATA_STORE = "androidx.datastore:datastore-preferences:1.0.0"
         const val MATERIAL = "com.google.android.material:material:1.7.0"
         const val ANDROIDX_NAV_UI = "androidx.navigation:navigation-ui-ktx:2.5.3"
+        const val WORK_MANAGER = "androidx.work:work-runtime-ktx:2.7.1"
     }
 
     object DI {
         const val HILT = "com.google.dagger:hilt-android:2.44"
         const val HILT_KAPT = "com.google.dagger:hilt-android-compiler:2.44"
+        const val HILT_WORK_MANAGER = "androidx.hilt:hilt-work:1.0.0"
+        const val HILT_WORK_MANAGER_KAPT = "androidx.hilt:hilt-compiler:1.0.0"
     }
 
     object Modules {
@@ -49,6 +53,7 @@ object Dependencies {
             const val MAIN = ":ui-feat-main"
             const val OVERVIEW = ":ui-feat-overview"
             const val PROFILE = ":ui-feat-profile"
+            const val WIDGETS = ":ui-feat-widgets"
             const val COMMON = ":ui-lib-common"
             const val NAVIGATION = ":ui-lib-navigation"
         }
@@ -57,9 +62,11 @@ object Dependencies {
             const val BASE = ":domain-base"
             const val ENTITIES = ":domain-entities"
             const val HEALTH_DATA = ":domain-healthdata"
+            const val STORES = ":domain-stores"
         }
 
         object Data {
+            const val STORES = ":data-stores"
             const val HEALTH_CONNECT = ":data-healthconnect"
         }
     }
@@ -76,6 +83,7 @@ object Dependencies {
         const val NAVIGATION_HILT = "androidx.hilt:hilt-navigation-compose:1.0.0"
         const val VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
         const val ICONS = "androidx.compose.material:material-icons-extended:1.3.0"
+        const val GLANCE = "androidx.glance:glance-appwidget:1.0.0-alpha05"
     }
 
     object UI {

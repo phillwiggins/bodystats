@@ -45,7 +45,13 @@ fun DateCarousel(
                                     Color.Transparent
                                 }
                             )
-                            .clickable { onDateSelected(dates[index]) },
+                            .clickable {
+                                if (dates[index].isAfter(LocalDate.now())) {
+                                    // NO OP
+                                } else {
+                                    onDateSelected(dates[index])
+                                }
+                            },
                     ) {
                         Column(
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 16.dp),
@@ -55,6 +61,8 @@ fun DateCarousel(
                                 text = dates[index].dayOfMonth.toString(),
                                 color = if (dates[index].isEqual(selectedDate)) {
                                     MaterialTheme.colorScheme.onPrimary
+                                } else if (dates[index].isAfter(LocalDate.now())) {
+                                    MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2F)
                                 } else {
                                     MaterialTheme.colorScheme.onBackground
                                 },
@@ -64,6 +72,8 @@ fun DateCarousel(
                                 text = dates[index].dayOfWeek.toString().substring(0, 3),
                                 color = if (dates[index].isEqual(selectedDate)) {
                                     MaterialTheme.colorScheme.onPrimary
+                                } else if (dates[index].isAfter(LocalDate.now())) {
+                                    MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2F)
                                 } else {
                                     MaterialTheme.colorScheme.onBackground
                                 },

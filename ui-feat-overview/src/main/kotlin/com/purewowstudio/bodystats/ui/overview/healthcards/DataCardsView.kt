@@ -7,7 +7,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -69,9 +68,15 @@ fun DataCardsViewContent(
         }
         Spacer(modifier = modifier.height(8.dp))
         Row {
-            CaloriesDataCard(modifier = modifier.weight(0.5F, false))
+            CaloriesDataCard(
+                modifier = modifier.weight(0.5F, false),
+                date = uiState.selectedDate
+            )
             Spacer(modifier = modifier.width(8.dp))
-            CaloriesBurntDataCard(modifier = modifier.weight(0.5F, false))
+            CaloriesBurntDataCard(
+                modifier = modifier.weight(0.5F, false),
+                date = uiState.selectedDate
+            )
         }
     }
 }

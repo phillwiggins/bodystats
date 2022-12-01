@@ -4,6 +4,15 @@ plugins {
 
 dependencies {
     implementation(project(Dependencies.Modules.UI.MAIN))
+    implementation(project(Dependencies.Modules.UI.WIDGETS))
+
+    implementation(project(Dependencies.Modules.Domain.ENTITIES))
+    implementation(project(Dependencies.Modules.Domain.HEALTH_DATA))
+    implementation(project(Dependencies.Modules.Domain.BASE))
+    implementation(project(Dependencies.Modules.Domain.STORES))
+
+    implementation(project(Dependencies.Modules.Data.STORES))
+    implementation(project(Dependencies.Modules.Data.HEALTH_CONNECT))
 
     implementation(Dependencies.Main.ANDROIDX_NAV_UI)
     implementation(Dependencies.Main.MATERIAL)

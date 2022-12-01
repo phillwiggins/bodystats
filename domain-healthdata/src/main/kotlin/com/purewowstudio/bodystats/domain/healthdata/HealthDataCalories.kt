@@ -4,7 +4,7 @@ import com.purewowstudio.bodystats.domain.healthdata.models.CaloriesConsumed
 import java.time.LocalDateTime
 
 interface HealthDataCalories {
-    suspend fun readConsumedToday(
+    suspend fun readConsumed(
         from: LocalDateTime = LocalDateTime.now()
             .withHour(0)
             .withMinute(0)
@@ -12,7 +12,7 @@ interface HealthDataCalories {
         until: LocalDateTime = LocalDateTime.now()
     ): Result<CaloriesConsumed>
 
-    suspend fun readBurntToday(
+    suspend fun readBurnt(
         from: LocalDateTime = LocalDateTime.now()
             .withHour(0)
             .withMinute(0)

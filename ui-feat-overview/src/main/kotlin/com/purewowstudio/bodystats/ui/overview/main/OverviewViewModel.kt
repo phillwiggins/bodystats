@@ -30,7 +30,7 @@ internal class OverviewViewModel @Inject constructor(
         healthData.state
             .onStart {
                 healthData.checkAvailability()
-                healthData.checkIfAllPermissionsAreGranted()
+                healthData.checkIfAllPermissionsAreGranted() // TODO: Check if available or crash occurs
             }
             .onEach(::onHealthDataUpdated)
             .launchIn(viewModelScope)

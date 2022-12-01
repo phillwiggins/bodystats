@@ -6,11 +6,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.purewowstudio.bodystats.domain.base.getDateTimeAtEndOfDay
+import com.purewowstudio.bodystats.domain.base.getDateTimeAtStartOfDay
 import com.purewowstudio.bodystats.domain.healthdata.HealthDataCalories
 import com.purewowstudio.bodystats.domain.healthdata.models.CaloriesConsumed
 import com.purewowstudio.bodystats.ui.overview.healthcards.OverviewCardUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,9 +24,13 @@ class CaloriesDataCardViewModel @Inject constructor(
     var uiState by mutableStateOf<OverviewCardUiState>(OverviewCardUiState.Loading)
         private set
 
-    init {
+    fun setInitialDate(date: LocalDate) {
         viewModelScope.launch {
-            caloriesDataCalories.readConsumedToday()
+            caloriesDataCalories
+                .readConsumed(
+                    from = date.getDateTimeAtStartOfDay(),
+                    until = date.getDateTimeAtEndOfDay(),
+                )
                 .onSuccess(::onCaloriesDataReturned)
                 .onFailure(::onCaloriesDataFailureReturned)
         }

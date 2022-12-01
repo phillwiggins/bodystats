@@ -100,10 +100,13 @@ class AppPlugin : Plugin<Project> {
 
     private fun Project.appDependencies() {
         dependencies {
-            // add("coreLibraryDesugaring", Dependencies.Main.DESUGARING)
-
             add("implementation",Dependencies.DI.HILT)
             add("kapt", Dependencies.DI.HILT_KAPT)
+
+            add("implementation", Dependencies.DI.HILT_WORK_MANAGER)
+            add("kapt", Dependencies.DI.HILT_WORK_MANAGER_KAPT)
+
+            add("implementation", Dependencies.Main.WORK_MANAGER)
         }
 
         configurations.all {

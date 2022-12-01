@@ -12,10 +12,13 @@ import com.purewowstudio.bodystats.ui.common.theme.BodyStatsTheme
 import com.purewowstudio.bodystats.ui.common.theme.caloriesConsumed
 import com.purewowstudio.bodystats.ui.overview.healthcards.OverviewCard
 import com.purewowstudio.bodystats.ui.overview.healthcards.OverviewCardUiState
+import java.time.LocalDate
 
 @Composable
-fun CaloriesDataCard(modifier: Modifier = Modifier) {
-    val viewModel = hiltViewModel<CaloriesDataCardViewModel>()
+fun CaloriesDataCard(modifier: Modifier = Modifier, date: LocalDate) {
+    val viewModel = hiltViewModel<CaloriesDataCardViewModel>().apply {
+        setInitialDate(date)
+    }
     CaloriesDataCardContent(modifier = modifier, uiState = viewModel.uiState)
 }
 

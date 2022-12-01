@@ -54,7 +54,6 @@ fun GenderDialog(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GenderDialogContent(
     radioOptions: List<Gender>,

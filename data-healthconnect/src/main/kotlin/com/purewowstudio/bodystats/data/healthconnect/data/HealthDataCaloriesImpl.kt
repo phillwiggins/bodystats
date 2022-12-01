@@ -21,7 +21,7 @@ internal class HealthDataCaloriesImpl @Inject constructor(
 
     private val healthConnectClient by lazy { HealthConnectClient.getOrCreate(context) }
 
-    override suspend fun readBurntToday(from: LocalDateTime, until: LocalDateTime): Result<Int?> {
+    override suspend fun readBurnt(from: LocalDateTime, until: LocalDateTime): Result<Int?> {
         return try {
             val sessionTimeFilter = TimeRangeFilter.between(from, until)
             val durationAggregateRequest = AggregateRequest(
@@ -56,7 +56,7 @@ internal class HealthDataCaloriesImpl @Inject constructor(
         }
     }
 
-    override suspend fun readConsumedToday(
+    override suspend fun readConsumed(
         from: LocalDateTime,
         until: LocalDateTime
     ): Result<CaloriesConsumed> {
@@ -76,30 +76,23 @@ internal class HealthDataCaloriesImpl @Inject constructor(
             val response = healthConnectClient.readRecords(nutritionRequest)
             val record = response.records.firstOrNull()
 
-            val burntResponse = readBurntToday(from, until)
+            val burntResponse = readBurnt(from, until)
             val burntAmount = burntResponse.getOrNull() ?: 0
+            
+            Result.success(
+                CaloriesConsumed(
+                    burnt = burntAmount,
+                    consumed = aggregateResponse[NutritionRecord.ENERGY_TOTAL]?.inKilocalories?.toInt()
+                        ?: 0,
+                    proteinGram = aggregateResponse[NutritionRecord.PROTEIN_TOTAL]?.inGrams?.toInt()
+                        ?: 0,
+                    carbGram = aggregateResponse[NutritionRecord.TOTAL_CARBOHYDRATE_TOTAL]?.inGrams?.toInt()
+                        ?: 0,
+                    fatGrm = aggregateResponse[NutritionRecord.TOTAL_FAT_TOTAL]?.inGrams?.toInt()
+                        ?: 0,
+                )
+            )
 
-            if (record == null) {
-                Result.success(
-                    CaloriesConsumed(
-                        burnt = 0,
-                        consumed = 0,
-                        proteinGram = 0,
-                        carbGram = 0,
-                        fatGrm = 0
-                    )
-                )
-            } else {
-                Result.success(
-                    CaloriesConsumed(
-                        burnt = burntAmount,
-                        consumed = aggregateResponse[NutritionRecord.ENERGY_TOTAL]?.inKilocalories?.toInt() ?: 0,
-                        proteinGram = aggregateResponse[NutritionRecord.PROTEIN_TOTAL]?.inGrams?.toInt() ?: 0,
-                        carbGram = aggregateResponse[NutritionRecord.TOTAL_CARBOHYDRATE_TOTAL]?.inGrams?.toInt() ?: 0,
-                        fatGrm = aggregateResponse[NutritionRecord.TOTAL_FAT_TOTAL]?.inGrams?.toInt() ?: 0,
-                    )
-                )
-            }
         } catch (exception: RemoteException) {
             Result.failure(exception)
         } catch (exception: SecurityException) {

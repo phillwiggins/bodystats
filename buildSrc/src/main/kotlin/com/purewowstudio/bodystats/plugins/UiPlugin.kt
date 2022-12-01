@@ -82,9 +82,13 @@ class UiPlugin : Plugin<Project> {
 
             add("implementation",Dependencies.DI.HILT)
             add("kapt", Dependencies.DI.HILT_KAPT)
+            add("implementation", Dependencies.DI.HILT_WORK_MANAGER)
+            add("kapt", Dependencies.DI.HILT_WORK_MANAGER_KAPT)
 
             add("implementation", Dependencies.UI.CHARTS)
             add("implementation", Dependencies.Main.MATERIAL)
+            add("implementation", Dependencies.Main.WORK_MANAGER)
+
             add("implementation", Dependencies.Compose.ACTIVITIES)
             add("implementation", Dependencies.Compose.MATERIAL3)
             add("implementation", Dependencies.Compose.FONTS)
@@ -94,6 +98,7 @@ class UiPlugin : Plugin<Project> {
             add("implementation", Dependencies.Compose.NAVIGATION)
             add("implementation", Dependencies.Compose.NAVIGATION_HILT)
             add("implementation", Dependencies.Compose.ICONS)
+            add("implementation", Dependencies.Compose.GLANCE)
         }
     }
 }
