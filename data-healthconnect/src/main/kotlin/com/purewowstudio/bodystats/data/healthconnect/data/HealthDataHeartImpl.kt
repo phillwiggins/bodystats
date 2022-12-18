@@ -6,14 +6,19 @@ import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.records.StepsRecord
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
+import com.purewowstudio.bodystats.domain.base.di.IoDispatcher
 import com.purewowstudio.bodystats.domain.healthdata.HealthDataSteps
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.time.LocalDateTime
 import javax.inject.Inject
 
 internal class HealthDataHeartImpl @Inject constructor(
     @ApplicationContext private val context: Context,
+    @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : HealthDataSteps {
 
     private val healthConnectClient by lazy { HealthConnectClient.getOrCreate(context) }
@@ -21,15 +26,15 @@ internal class HealthDataHeartImpl @Inject constructor(
     override suspend fun readSteps(
         from: LocalDateTime,
         until: LocalDateTime
-    ): Result<Int?> {
-        return try {
+    ): Result<Int?> = withContext(dispatcher) {
+        return@withContext try {
             val sessionTimeFilter = TimeRangeFilter.between(from, until)
             val stepsRequest = ReadRecordsRequest(
                 recordType = StepsRecord::class,
                 timeRangeFilter = sessionTimeFilter
             )
             val stepsResponse = healthConnectClient.readRecords(stepsRequest)
-            return Result.success(stepsResponse.records.firstOrNull()?.count?.toInt() ?: 0)
+            Result.success(stepsResponse.records.firstOrNull()?.count?.toInt() ?: 0)
         } catch (exception: RemoteException) {
             Result.failure(exception)
         } catch (exception: SecurityException) {

@@ -7,12 +7,17 @@ import androidx.work.Constraints
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.purewowstudio.bodystats.ui.main.MainScreen
+import com.purewowstudio.bodystats.ui.navigation.NavigationManager
 import com.purewowstudio.bodystats.ui.widgets.overview.OverviewWidgetWorker
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var navigationManager: NavigationManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         startWidgetWorkers()
 
         setContent {
-            MainScreen()
+            MainScreen(navigationManager = navigationManager)
         }
     }
 

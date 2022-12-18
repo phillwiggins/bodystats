@@ -5,6 +5,7 @@ plugins {
 dependencies {
     implementation(project(Dependencies.Modules.UI.MAIN))
     implementation(project(Dependencies.Modules.UI.WIDGETS))
+    implementation(project(Dependencies.Modules.UI.NAVIGATION))
 
     implementation(project(Dependencies.Modules.Domain.ENTITIES))
     implementation(project(Dependencies.Modules.Domain.HEALTH_DATA))

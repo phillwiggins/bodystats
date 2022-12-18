@@ -42,13 +42,13 @@ fun RequestPermissionsCardContent(
                 style = MaterialTheme.typography.titleMedium,
                 text = "2. Permissions"
             )
-            Spacer(modifier = modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 style = MaterialTheme.typography.bodySmall,
                 text = "Please grant permissions to allow access your health data and keep BodyStats up to date.",
             )
-            Spacer(modifier = modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(8.dp))
             Button(onClick = onPermissionsClicked, enabled = isButtonEnabled) {
                 Text(text = "Allow Permissions")
             }

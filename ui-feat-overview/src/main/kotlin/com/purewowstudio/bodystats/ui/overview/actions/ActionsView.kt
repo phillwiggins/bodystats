@@ -22,18 +22,18 @@ fun ActionsView(
     onConnectButtonClicked: () -> Unit,
     onPermissionsButtonClicked: () -> Unit,
 ) {
-    Column {
+    Column(modifier = modifier) {
         Text(
             text = "ACTIONS REQUIRED",
             color = MaterialTheme.colorScheme.onBackground,
             style = MaterialTheme.typography.labelSmall
         )
-        Spacer(modifier = modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         ConnectCard(
             isButtonEnabled = isConnectButtonEnabled,
             onConnectButtonClicked = onConnectButtonClicked
         )
-        Spacer(modifier = modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         RequestPermissionsCard(
             isButtonEnabled = isPermissionsButtonEnabled,
             onPermissionsClicked = onPermissionsButtonClicked

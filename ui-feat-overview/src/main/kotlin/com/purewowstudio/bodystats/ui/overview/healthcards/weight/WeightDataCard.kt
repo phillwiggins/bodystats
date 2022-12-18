@@ -14,25 +14,31 @@ import com.purewowstudio.bodystats.ui.overview.healthcards.OverviewCard
 import com.purewowstudio.bodystats.ui.overview.healthcards.OverviewCardUiState
 
 @Composable
-fun WeightDataCard(modifier: Modifier = Modifier) {
+fun WeightDataCard(
+    modifier: Modifier = Modifier,
+    onClicked: () -> Unit,
+) {
     val viewModel = hiltViewModel<WeightDataCardViewModel>()
     WeightDataCardContent(
         modifier = modifier,
-        uiState = viewModel.uiState
+        uiState = viewModel.uiState,
+        onClicked = onClicked
     )
 }
 
 @Composable
 fun WeightDataCardContent(
     modifier: Modifier = Modifier,
-    uiState: OverviewCardUiState
+    uiState: OverviewCardUiState,
+    onClicked: () -> Unit,
 ) {
     OverviewCard(
         modifier = modifier,
         title = "Current Weight",
         state = uiState,
         backgroundColor = MaterialTheme.colorScheme.weight,
-        icon = Icons.Outlined.MonitorWeight
+        icon = Icons.Outlined.MonitorWeight,
+        onClicked = onClicked
     )
 }
 
@@ -45,7 +51,8 @@ fun WeightDataCardContentPreviewDark() {
                 amount = "93.05",
                 type = "KG",
                 subtitle = "Wed 05 May",
-            )
+            ),
+            onClicked = {}
         )
     }
 }
@@ -59,7 +66,8 @@ fun WeightDataCardContentPreviewLight() {
                 amount = "93.05",
                 type = "KG",
                 subtitle = "Wed 05 May",
-            )
+            ),
+            onClicked = {}
         )
     }
 }
@@ -69,7 +77,8 @@ fun WeightDataCardContentPreviewLight() {
 fun WeightDataCardContentPreviewLoading() {
     BodyStatsTheme {
         WeightDataCardContent(
-            uiState = OverviewCardUiState.Loading
+            uiState = OverviewCardUiState.Loading,
+            onClicked = {}
         )
     }
 }

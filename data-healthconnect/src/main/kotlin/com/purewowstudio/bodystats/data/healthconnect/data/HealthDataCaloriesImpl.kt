@@ -8,22 +8,27 @@ import androidx.health.connect.client.records.TotalCaloriesBurnedRecord
 import androidx.health.connect.client.request.AggregateRequest
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
+import com.purewowstudio.bodystats.domain.base.di.IoDispatcher
 import com.purewowstudio.bodystats.domain.healthdata.HealthDataCalories
 import com.purewowstudio.bodystats.domain.healthdata.models.CaloriesConsumed
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.time.LocalDateTime
 import javax.inject.Inject
 
 internal class HealthDataCaloriesImpl @Inject constructor(
     @ApplicationContext private val context: Context,
+    @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : HealthDataCalories {
 
     private val healthConnectClient by lazy { HealthConnectClient.getOrCreate(context) }
 
-    override suspend fun readBurnt(from: LocalDateTime, until: LocalDateTime): Result<Int?> {
-        return try {
-            val sessionTimeFilter = TimeRangeFilter.between(from, until)
+    override suspend fun readBurnt(from: LocalDateTime, until: LocalDateTime): Result<Int?> = withContext(dispatcher) {
+        val timeUntilNow = if (until.isAfter(LocalDateTime.now())) LocalDateTime.now() else until
+        return@withContext try {
+            val sessionTimeFilter = TimeRangeFilter.between(from, timeUntilNow)
             val durationAggregateRequest = AggregateRequest(
                 metrics = setOf(TotalCaloriesBurnedRecord.ENERGY_TOTAL),
                 timeRangeFilter = sessionTimeFilter
@@ -59,8 +64,8 @@ internal class HealthDataCaloriesImpl @Inject constructor(
     override suspend fun readConsumed(
         from: LocalDateTime,
         until: LocalDateTime
-    ): Result<CaloriesConsumed> {
-        return try {
+    ): Result<CaloriesConsumed> = withContext(dispatcher) {
+        return@withContext try {
             val sessionTimeFilter = TimeRangeFilter.between(from, until)
             val durationAggregateRequest = AggregateRequest(
                 metrics = setOf(NutritionRecord.ENERGY_TOTAL),

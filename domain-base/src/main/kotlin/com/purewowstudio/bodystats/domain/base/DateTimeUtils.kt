@@ -1,9 +1,7 @@
 package com.purewowstudio.bodystats.domain.base
 
-import java.time.Instant
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZoneId
+import android.os.Build
+import java.time.*
 import java.time.format.DateTimeFormatter
 
 fun Instant.toDayMonthYear(): String {
@@ -20,6 +18,12 @@ fun LocalDate.toDayMonthYear(): String {
 
 fun LocalDate.toDateOfBirth(): String {
     val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd MMM yy")
+        .withZone(ZoneId.systemDefault())
+    return formatter.format(this)
+}
+
+fun LocalDateTime.toSimpleTime(): String {
+    val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
         .withZone(ZoneId.systemDefault())
     return formatter.format(this)
 }
@@ -41,4 +45,16 @@ fun LocalDate.getDateTimeAtEndOfDay(): LocalDateTime {
         .withMinute(59)
         .withHour(23)
         .withSecond(59)
+}
+
+fun Duration.toFormattedDuration(): String {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        String.format(
+            "%dh %02dm",
+            this.toHours(),
+            this.toMinutesPart(),
+        )
+    } else {
+        "0h, 00m"
+    }
 }

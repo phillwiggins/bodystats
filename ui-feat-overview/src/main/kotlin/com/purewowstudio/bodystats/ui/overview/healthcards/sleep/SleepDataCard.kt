@@ -17,23 +17,30 @@ import java.time.LocalDate
 @Composable
 fun SleepDataCard(
     modifier: Modifier = Modifier,
-    date: LocalDate
+    date: LocalDate,
+    onClicked: () -> Unit
 ) {
     val viewModel = hiltViewModel<SleepDataCardViewModel>().apply { setInitialDate(date) }
-    SleepDataCardContent(modifier = modifier, uiState = viewModel.uiState)
+    SleepDataCardContent(
+        modifier = modifier,
+        uiState = viewModel.uiState,
+        onClicked = onClicked
+    )
 }
 
 @Composable
 fun SleepDataCardContent(
     modifier: Modifier = Modifier,
-    uiState: OverviewCardUiState
+    uiState: OverviewCardUiState,
+    onClicked: () -> Unit,
 ) {
     OverviewCard(
         modifier = modifier,
         title = "Sleep",
         state = uiState,
         backgroundColor = MaterialTheme.colorScheme.sleep,
-        icon = Icons.Outlined.KingBed
+        icon = Icons.Outlined.KingBed,
+        onClicked = onClicked
     )
 }
 
@@ -46,7 +53,8 @@ fun OverviewScreenPreviewDark() {
                 amount = "8h, 30m",
                 subtitle = "9:35-8:45",
                 type = "test"
-            )
+            ),
+            onClicked = {}
         )
     }
 }
@@ -60,7 +68,8 @@ fun OverviewScreenPreviewLight() {
                 amount = "8h, 30m",
                 subtitle = "9:35-8:45",
                 type = "test",
-            )
+            ),
+            onClicked = {}
         )
     }
 }
@@ -70,7 +79,8 @@ fun OverviewScreenPreviewLight() {
 fun OverviewScreenPreviewLoading() {
     BodyStatsTheme {
         SleepDataCardContent(
-            uiState = OverviewCardUiState.Loading
+            uiState = OverviewCardUiState.Loading,
+            onClicked = {}
         )
     }
 }

@@ -33,19 +33,19 @@ fun ConnectCardContent(
             .fillMaxWidth()
             .wrapContentHeight(),
     ) {
-        Column(modifier = modifier.padding(12.dp)) {
+        Column(modifier = Modifier.padding(12.dp)) {
             Text(
                 color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.titleMedium,
                 text = "1. Health & Body Information"
             )
-            Spacer(modifier = modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 style = MaterialTheme.typography.bodySmall,
                 text = "Keep BodyStats updated with the latest information from your other apps, like your calories, heart rate and body measurements",
             )
-            Spacer(modifier = modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(8.dp))
             Button(onClick = onConnectButtonClicked, enabled = isButtonEnabled) {
                 Text(text = "Setup Health Connect")
             }

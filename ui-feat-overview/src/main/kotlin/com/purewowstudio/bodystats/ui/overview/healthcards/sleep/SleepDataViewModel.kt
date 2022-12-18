@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.purewowstudio.bodystats.domain.base.getDateTimeAtEndOfDay
 import com.purewowstudio.bodystats.domain.base.getDateTimeAtStartOfDay
+import com.purewowstudio.bodystats.domain.base.toFormattedDuration
 import com.purewowstudio.bodystats.domain.healthdata.HealthDataSleep
 import com.purewowstudio.bodystats.domain.healthdata.models.SleepSession
 import com.purewowstudio.bodystats.ui.overview.healthcards.OverviewCardUiState
@@ -49,22 +50,10 @@ class SleepDataCardViewModel @Inject constructor(
             OverviewCardUiState.NoData
         } else {
             OverviewCardUiState.Loaded(
-                amount = getTotalHoursSlept(it.first()),
+                amount = it.first().duration?.toFormattedDuration() ?: "",
                 subtitle = getStartAndEndTime(it.first()),
                 type = it.first().title ?: ""
             )
-        }
-    }
-
-    private fun getTotalHoursSlept(data: SleepSession): String {
-        return if (data.duration != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            String.format(
-                "%dh %02dm",
-                data.duration?.toHours(),
-                data.duration?.toMinutesPart(),
-            )
-        } else {
-            "0h, 00m"
         }
     }
 

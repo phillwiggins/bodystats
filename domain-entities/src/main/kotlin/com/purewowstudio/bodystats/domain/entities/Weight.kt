@@ -57,7 +57,7 @@ class Weight private constructor(
         fun pounds(value: Double): Weight = Weight(value, Type.POUNDS)
     }
 
-    private enum class Type {
+    enum class Type {
         GRAMS {
             override val gramsPerUnit: Double = 1.0
         },

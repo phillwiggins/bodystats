@@ -27,7 +27,8 @@ fun DataCardsView(modifier: Modifier = Modifier) {
     DataCardsViewContent(
         modifier = modifier,
         uiState = viewModel.uiState,
-        onDateSelected = viewModel::onDateSelected
+        onDateSelected = viewModel::onDateSelected,
+        onSleepClicked = viewModel::onSleepClicked
     )
 }
 
@@ -36,46 +37,56 @@ fun DataCardsViewContent(
     modifier: Modifier = Modifier,
     uiState: DataCardViewState,
     onDateSelected: (LocalDate) -> Unit,
+    onSleepClicked: () -> Unit,
 ) {
     DateCarousel(
         selectedDate = uiState.selectedDate,
         onDateSelected = { onDateSelected(it) })
     Column(
-        modifier = Modifier
+        modifier = modifier
             .verticalScroll(rememberScrollState())
             .fillMaxWidth()
     ) {
-        Spacer(modifier = modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = " ${uiState.selectedDate.toDayMonthYear()}".toUpperCase(Locale.getDefault()),
+            text = " ${uiState.selectedDate.toDayMonthYear()}".uppercase(),
             color = MaterialTheme.colorScheme.onBackground,
             style = MaterialTheme.typography.labelMedium
         )
-        Spacer(modifier = modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         TotalCard(date = uiState.selectedDate)
-        Spacer(modifier = modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         Row {
             SleepDataCard(
-                modifier = modifier.weight(0.5F, false),
-                date = uiState.selectedDate
+                modifier = Modifier.weight(0.5F, false),
+                date = uiState.selectedDate,
+                onClicked = onSleepClicked
             )
-            Spacer(modifier = modifier.width(8.dp))
-            WeightDataCard(modifier = modifier.weight(0.5F, false))
+            Spacer(modifier = Modifier.width(8.dp))
+            WeightDataCard(
+                modifier = Modifier.weight(0.5F, false),
+                onClicked = {}
+            )
         }
-        Spacer(modifier = modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         Row {
-            StepsDataCard(date = uiState.selectedDate)
+            StepsDataCard(
+                date = uiState.selectedDate,
+                onClicked = {}
+            )
         }
-        Spacer(modifier = modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         Row {
             CaloriesDataCard(
-                modifier = modifier.weight(0.5F, false),
-                date = uiState.selectedDate
+                modifier = Modifier.weight(0.5F, false),
+                date = uiState.selectedDate,
+                onClicked = {}
             )
-            Spacer(modifier = modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(8.dp))
             CaloriesBurntDataCard(
-                modifier = modifier.weight(0.5F, false),
-                date = uiState.selectedDate
+                modifier = Modifier.weight(0.5F, false),
+                date = uiState.selectedDate,
+                onClicked = {}
             )
         }
     }
@@ -87,9 +98,8 @@ fun DataCardsViewPreview() {
     BodyStatsTheme {
         DataCardsViewContent(
             uiState = DataCardViewState(LocalDate.now()),
-            onDateSelected = {
-                // NO OP
-            }
+            onDateSelected = { /* NO OP*/ },
+            onSleepClicked = { /* NO OP*/ }
         )
     }
 }

@@ -8,15 +8,20 @@ import androidx.health.connect.client.records.SleepStageRecord
 import androidx.health.connect.client.request.AggregateRequest
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
+import com.purewowstudio.bodystats.domain.base.di.IoDispatcher
 import com.purewowstudio.bodystats.domain.healthdata.HealthDataSleep
 import com.purewowstudio.bodystats.domain.healthdata.models.SleepSession
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.time.LocalDateTime
 import javax.inject.Inject
 
 internal class HealthDataSleepImpl @Inject constructor(
     @ApplicationContext private val context: Context,
+    @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : HealthDataSleep {
 
     private val healthConnectClient by lazy { HealthConnectClient.getOrCreate(context) }
@@ -24,7 +29,7 @@ internal class HealthDataSleepImpl @Inject constructor(
     override suspend fun readSleepSessions(
         from: LocalDateTime,
         until: LocalDateTime
-    ): Result<List<SleepSession>> {
+    ): Result<List<SleepSession>> = withContext(dispatcher) {
 
         val sessions = mutableListOf<SleepSession>()
         val sleepSessionRequest = ReadRecordsRequest(
@@ -36,7 +41,7 @@ internal class HealthDataSleepImpl @Inject constructor(
             ascendingOrder = false
         )
 
-        return try {
+        return@withContext try {
             val sleepSessions = healthConnectClient.readRecords(sleepSessionRequest)
 
             sleepSessions.records.forEach { session ->

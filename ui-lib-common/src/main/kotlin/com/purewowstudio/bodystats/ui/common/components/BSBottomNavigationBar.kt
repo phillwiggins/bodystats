@@ -7,12 +7,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import com.purewowstudio.bodystats.ui.common.theme.BodyStatsTheme
 import com.purewowstudio.bodystats.ui.navigation.NavBarItems
 
 @Composable
@@ -29,7 +26,7 @@ fun BSBottomNavigationBar(
 
         NavBarItems.BarItems.forEach { navItem ->
 
-            val isSelected = currentRoute == navItem.route
+            val isSelected = currentRoute == navItem.route.route
             if (isSelected) setNavName(navItem.title)
 
             BottomNavigationItem(
@@ -37,7 +34,7 @@ fun BSBottomNavigationBar(
                 unselectedContentColor = MaterialTheme.colorScheme.surface,
                 selected = isSelected,
                 onClick = {
-                    navController.navigate(navItem.route) {
+                    navController.navigate(navItem.route.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
                             saveState = true
                         }
@@ -61,14 +58,5 @@ fun BSBottomNavigationBar(
                 },
             )
         }
-    }
-}
-
-@Composable
-@Preview
-fun BottomAppBarPreview() {
-    val navController = rememberNavController()
-    BodyStatsTheme {
-        BSBottomNavigationBar(navController = navController, setNavName = {})
     }
 }

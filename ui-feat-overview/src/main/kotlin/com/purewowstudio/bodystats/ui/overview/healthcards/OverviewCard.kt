@@ -1,6 +1,7 @@
 package com.purewowstudio.bodystats.ui.overview.healthcards
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
@@ -23,11 +24,15 @@ fun OverviewCard(
     title: String,
     state: OverviewCardUiState,
     backgroundColor: Color,
-    icon: ImageVector
+    icon: ImageVector,
+    onClicked: () -> Unit
 ) {
-    ElevatedCard(modifier = modifier.height(160.dp)) {
+    ElevatedCard(modifier = modifier
+        .height(160.dp)
+        .clickable { onClicked() }
+    ) {
         Box(
-            modifier = modifier
+            modifier = Modifier
                 .background(
                     brush = Brush.horizontalGradient(
                         colors = listOf(
@@ -38,7 +43,7 @@ fun OverviewCard(
                 )
                 .fillMaxSize()
         ) {
-            Column(modifier = modifier.padding(12.dp)) {
+            Column(modifier = Modifier.padding(12.dp)) {
                 Column {
                     Box(
                         modifier = Modifier
@@ -53,7 +58,7 @@ fun OverviewCard(
                             tint = MaterialTheme.colorScheme.colorOnCustom
                         )
                     }
-                    Spacer(modifier = modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         color = MaterialTheme.colorScheme.colorOnCustom,
                         style = MaterialTheme.typography.titleMedium,
@@ -68,11 +73,11 @@ fun OverviewCard(
                     }
                 }
 
-                Spacer(modifier = modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
                 when (state) {
                     is OverviewCardUiState.Loading -> Row(
-                        modifier = modifier
+                        modifier = Modifier
                             .fillMaxWidth()
                             .height(48.dp),
                         horizontalArrangement = Arrangement.Center

@@ -15,24 +15,34 @@ import com.purewowstudio.bodystats.ui.overview.healthcards.OverviewCardUiState
 import java.time.LocalDate
 
 @Composable
-fun CaloriesBurntDataCard(modifier: Modifier = Modifier, date: LocalDate) {
+fun CaloriesBurntDataCard(
+    modifier: Modifier = Modifier,
+    date: LocalDate,
+    onClicked: () -> Unit,
+) {
     val viewModel = hiltViewModel<CaloriesBurntDataCardViewModel>().apply {
         setInitialDate(date)
     }
-    CaloriesBurntDataCardContent(modifier = modifier, uiState = viewModel.uiState)
+    CaloriesBurntDataCardContent(
+        modifier = modifier,
+        uiState = viewModel.uiState,
+        onClicked = onClicked
+    )
 }
 
 @Composable
 fun CaloriesBurntDataCardContent(
     modifier: Modifier = Modifier,
-    uiState: OverviewCardUiState
+    uiState: OverviewCardUiState,
+    onClicked: () -> Unit,
 ) {
     OverviewCard(
         modifier = modifier,
         title = "Kcal Burnt",
         state = uiState,
         backgroundColor = MaterialTheme.colorScheme.caloriesBurnt,
-        icon = Icons.Outlined.LocalFireDepartment
+        icon = Icons.Outlined.LocalFireDepartment,
+        onClicked = onClicked
     )
 }
 
@@ -44,7 +54,8 @@ fun CaloriesBurntDataCardPreviewDark() {
             uiState = OverviewCardUiState.Loaded(
                 amount = "1000",
                 type = "kcals"
-            )
+            ),
+            onClicked = {}
         )
     }
 }
@@ -57,7 +68,8 @@ fun CaloriesBurntDataCardPreviewLight() {
             uiState = OverviewCardUiState.Loaded(
                 amount = "1000",
                 type = "kcals"
-            )
+            ),
+            onClicked = {}
         )
     }
 }
@@ -67,7 +79,8 @@ fun CaloriesBurntDataCardPreviewLight() {
 fun CaloriesBurntDataCardPreviewLoading() {
     BodyStatsTheme {
         CaloriesBurntDataCardContent(
-            uiState = OverviewCardUiState.Loading
+            uiState = OverviewCardUiState.Loading,
+            onClicked = {}
         )
     }
 }

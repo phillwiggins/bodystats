@@ -15,24 +15,32 @@ import com.purewowstudio.bodystats.ui.overview.healthcards.OverviewCardUiState
 import java.time.LocalDate
 
 @Composable
-fun StepsDataCard(date: LocalDate) {
+fun StepsDataCard(
+    date: LocalDate,
+    onClicked: () -> Unit,
+) {
     val viewModel = hiltViewModel<StepsDataCardViewModel>().apply {
         setInitialDate(date)
     }
-    StepsDataCardContent(uiState = viewModel.uiState)
+    StepsDataCardContent(
+        uiState = viewModel.uiState,
+    onClicked = onClicked
+    )
 }
 
 @Composable
 fun StepsDataCardContent(
     modifier: Modifier = Modifier,
-    uiState: OverviewCardUiState
+    uiState: OverviewCardUiState,
+    onClicked: () -> Unit,
 ) {
     OverviewCard(
         modifier = modifier,
         title = "Steps",
         state = uiState,
         backgroundColor = MaterialTheme.colorScheme.steps,
-        icon = Icons.Outlined.DirectionsWalk
+        icon = Icons.Outlined.DirectionsWalk,
+        onClicked = onClicked
     )
 }
 
@@ -44,7 +52,8 @@ fun CaloriesBurntDataCardPreviewDark() {
             uiState = OverviewCardUiState.Loaded(
                 amount = "9650",
                 type = "steps"
-            )
+            ),
+            onClicked = {}
         )
     }
 }
@@ -57,7 +66,8 @@ fun CaloriesBurntDataCardPreviewLight() {
             uiState = OverviewCardUiState.Loaded(
                 amount = "9650",
                 type = "steps"
-            )
+            ),
+            onClicked = {}
         )
     }
 }
@@ -67,7 +77,8 @@ fun CaloriesBurntDataCardPreviewLight() {
 fun CaloriesBurntDataCardPreviewLoading() {
     BodyStatsTheme {
         StepsDataCardContent(
-            uiState = OverviewCardUiState.Loading
+            uiState = OverviewCardUiState.Loading,
+            onClicked = {}
         )
     }
 }
