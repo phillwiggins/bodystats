@@ -23,6 +23,7 @@ fun MainScreen(navigationManager: NavigationManager) {
     val navName = remember { mutableStateOf("") }
 
     navigationManager.routes.collectAsState().value.also { command ->
+        if (command == null) return
         if (command.route.isNotEmpty()) {
             if (command.route == "back") {
                 navController.popBackStack()
