@@ -23,7 +23,7 @@ fun LocalDate.toDateOfBirth(): String {
 }
 
 fun LocalDateTime.toSimpleTime(): String {
-    val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
+    val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mma")
         .withZone(ZoneId.systemDefault())
     return formatter.format(this)
 }

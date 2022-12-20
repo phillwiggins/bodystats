@@ -85,22 +85,21 @@ fun SleepScreenLoadedView(
         IconWithTitleAndDescription(
             icon = Icons.Outlined.NightsStay,
             title = "Start time",
-            description = "Time you went to bed",
+            description = "Time fell to sleep",
             value = uiState.startTime
         )
         IconWithTitleAndDescription(
             icon = Icons.Outlined.Alarm,
             title = "End time",
-            description = "Time you got out of bed",
+            description = "Time you woke up",
             value = uiState.endTime
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(24.dp))
         Text(
             "Stages",
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurface
         )
-        Spacer(modifier = Modifier.height(8.dp))
         IconWithTitleAndDescription(
             icon = Icons.Outlined.Accessibility,
             title = "Time awake",
@@ -142,21 +141,21 @@ private fun IconWithTitleAndDescription(
     value: String
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(top = 4.dp),
+        modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Row {
+        Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurface
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(16.dp))
             Column {
                 Text(
                     title,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(

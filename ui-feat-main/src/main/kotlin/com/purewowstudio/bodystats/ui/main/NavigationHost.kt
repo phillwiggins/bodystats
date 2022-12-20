@@ -27,18 +27,18 @@ fun NavigationHost(
     ) {
 
         composable(NavRoute.Overview.route) {
-            onDetailViewDisplayed(false)
             OverviewScreen()
+            onDetailViewDisplayed(false)
         }
 
         composable(NavRoute.Profile.route) {
-            onDetailViewDisplayed(false)
             ProfileScreen()
+            onDetailViewDisplayed(false)
         }
 
         composable(NavRoute.Sleep.route) {
-            onDetailViewDisplayed(true)
             SleepScreen()
+            onDetailViewDisplayed(true)
         }
     }
 }
