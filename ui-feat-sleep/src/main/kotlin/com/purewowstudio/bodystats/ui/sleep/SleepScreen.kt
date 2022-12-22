@@ -2,6 +2,7 @@ package com.purewowstudio.bodystats.ui.sleep
 
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
@@ -27,6 +28,8 @@ fun SleepScreen() {
     SleepScreenContent(
         uiState = viewModel.uiState,
     )
+
+    BackHandler(enabled = true, onBack = viewModel::onBackPressed)
 }
 
 @Composable
@@ -141,7 +144,9 @@ private fun IconWithTitleAndDescription(
     value: String
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {

@@ -55,6 +55,7 @@ object Dependencies {
             const val PROFILE = ":ui-feat-profile"
             const val WIDGETS = ":ui-feat-widgets"
             const val SLEEP = ":ui-feat-sleep"
+            const val WEIGHT = ":ui-feat-weight"
             const val COMMON = ":ui-lib-common"
             const val NAVIGATION = ":ui-lib-navigation"
         }

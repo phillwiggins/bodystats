@@ -15,7 +15,6 @@ import com.purewowstudio.bodystats.ui.navigation.NavBarItems
 @Composable
 fun BSBottomNavigationBar(
     navController: NavHostController,
-    setNavName: (String) -> Unit,
 ) {
     BottomNavigation(
         backgroundColor = MaterialTheme.colorScheme.background,
@@ -27,7 +26,6 @@ fun BSBottomNavigationBar(
         NavBarItems.BarItems.forEach { navItem ->
 
             val isSelected = currentRoute == navItem.route.route
-            if (isSelected) setNavName(navItem.title)
 
             BottomNavigationItem(
                 selectedContentColor = MaterialTheme.colorScheme.primary,

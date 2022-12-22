@@ -13,5 +13,6 @@ include(
     ":ui-feat-overview",
     ":ui-feat-profile",
     ":ui-feat-sleep",
+    ":ui-feat-weight",
 )
 rootProject.name = "bodystats"

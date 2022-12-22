@@ -19,7 +19,6 @@ import com.purewowstudio.bodystats.ui.overview.healthcards.steps.StepsDataCard
 import com.purewowstudio.bodystats.ui.overview.healthcards.total.TotalCard
 import com.purewowstudio.bodystats.ui.overview.healthcards.weight.WeightDataCard
 import java.time.LocalDate
-import java.util.*
 
 @Composable
 fun DataCardsView(modifier: Modifier = Modifier) {
@@ -28,7 +27,8 @@ fun DataCardsView(modifier: Modifier = Modifier) {
         modifier = modifier,
         uiState = viewModel.uiState,
         onDateSelected = viewModel::onDateSelected,
-        onSleepClicked = viewModel::onSleepClicked
+        onSleepClicked = viewModel::onSleepClicked,
+        onWeightClicked = viewModel::onWeightClicked
     )
 }
 
@@ -38,6 +38,7 @@ fun DataCardsViewContent(
     uiState: DataCardViewState,
     onDateSelected: (LocalDate) -> Unit,
     onSleepClicked: () -> Unit,
+    onWeightClicked: () -> Unit,
 ) {
     DateCarousel(
         selectedDate = uiState.selectedDate,
@@ -65,7 +66,7 @@ fun DataCardsViewContent(
             Spacer(modifier = Modifier.width(8.dp))
             WeightDataCard(
                 modifier = Modifier.weight(0.5F, false),
-                onClicked = {}
+                onClicked = onWeightClicked
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
@@ -99,7 +100,8 @@ fun DataCardsViewPreview() {
         DataCardsViewContent(
             uiState = DataCardViewState(LocalDate.now()),
             onDateSelected = { /* NO OP*/ },
-            onSleepClicked = { /* NO OP*/ }
+            onSleepClicked = { /* NO OP*/ },
+            onWeightClicked = { /* NO OP*/ },
         )
     }
 }

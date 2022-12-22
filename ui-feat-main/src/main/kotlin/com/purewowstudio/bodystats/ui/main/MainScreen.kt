@@ -23,7 +23,6 @@ fun MainScreen(navigationManager: NavigationManager) {
     val navName = remember { mutableStateOf("") }
 
     navigationManager.routes.collectAsState().value.also { command ->
-        if (command == null) return
         if (command.route.isNotEmpty()) {
             if (command.route == "back") {
                 navController.popBackStack()
@@ -48,14 +47,14 @@ fun MainScreen(navigationManager: NavigationManager) {
                     navController = navController,
                     onDetailViewDisplayed = {
                         isDetailView.value = it
-                    }
+                    },
+                    setNavName = { navName.value = it ?: "" },
                 )
             },
             bottomBar = {
                 if (!isDetailView.value) {
                     BSBottomNavigationBar(
-                        navController = navController,
-                        setNavName = { navName.value = it },
+                        navController = navController
                     )
                 }
             }

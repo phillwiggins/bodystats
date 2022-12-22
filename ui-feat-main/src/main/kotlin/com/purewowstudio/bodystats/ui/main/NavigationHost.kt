@@ -13,12 +13,14 @@ import com.purewowstudio.bodystats.ui.navigation.NavigationManager
 import com.purewowstudio.bodystats.ui.overview.main.OverviewScreen
 import com.purewowstudio.bodystats.ui.profile.ProfileScreen
 import com.purewowstudio.bodystats.ui.sleep.SleepScreen
+import com.purewowstudio.bodystats.ui.weight.WeightScreen
 
 @Composable
 fun NavigationHost(
     paddingValues: PaddingValues,
     navController: NavHostController,
     onDetailViewDisplayed: (Boolean) -> Unit,
+    setNavName: (String?) -> Unit,
 ) {
     NavHost(
         modifier = Modifier.padding(paddingValues),
@@ -27,18 +29,27 @@ fun NavigationHost(
     ) {
 
         composable(NavRoute.Overview.route) {
-            OverviewScreen()
+            setNavName(NavRoute.Overview.title)
             onDetailViewDisplayed(false)
+            OverviewScreen()
         }
 
         composable(NavRoute.Profile.route) {
-            ProfileScreen()
+            setNavName(NavRoute.Profile.title)
             onDetailViewDisplayed(false)
+            ProfileScreen()
         }
 
         composable(NavRoute.Sleep.route) {
-            SleepScreen()
+            setNavName(NavRoute.Sleep.title)
             onDetailViewDisplayed(true)
+            SleepScreen()
+        }
+
+        composable(NavRoute.Weight.route) {
+            setNavName(NavRoute.Weight.title)
+            onDetailViewDisplayed(true)
+            WeightScreen()
         }
     }
 }

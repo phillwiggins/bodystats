@@ -30,6 +30,10 @@ internal class DataCardViewModel @Inject constructor(
         navigationManager.navigate(NavRoute.Sleep)
     }
 
+    fun onWeightClicked() {
+        navigationManager.navigate(NavRoute.Weight)
+    }
+
     companion object {
         private val LOG_TAG = DataCardViewModel::class.java.simpleName
     }

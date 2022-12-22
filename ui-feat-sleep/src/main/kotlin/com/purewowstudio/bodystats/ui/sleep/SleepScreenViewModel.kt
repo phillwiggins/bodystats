@@ -11,6 +11,8 @@ import com.purewowstudio.bodystats.domain.base.toFormattedDuration
 import com.purewowstudio.bodystats.domain.base.toSimpleTime
 import com.purewowstudio.bodystats.domain.healthdata.HealthDataSleep
 import com.purewowstudio.bodystats.domain.healthdata.models.*
+import com.purewowstudio.bodystats.ui.navigation.NavRoute
+import com.purewowstudio.bodystats.ui.navigation.NavigationManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -19,6 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class SleepScreenViewModel @Inject constructor(
+    private val navManager: NavigationManager,
     private val sleepData: HealthDataSleep
 ) : ViewModel() {
 
@@ -55,5 +58,9 @@ internal class SleepScreenViewModel @Inject constructor(
             deepTime = sleepSession.getDeepTime().toFormattedDuration(),
             outOfBedTime = sleepSession.getOutOfBedTime().toFormattedDuration()
         )
+    }
+
+    fun onBackPressed() {
+        navManager.navigate(NavRoute.Back)
     }
 }
