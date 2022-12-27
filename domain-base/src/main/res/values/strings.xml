@@ -11,4 +11,6 @@
     <string name="gender_desc">Tell us your gender so that we can accurately calculate your body stats. </string>
     <string name="male">Male</string>
     <string name="female">Female</string>
+    <string name="kgs">Kgs</string>
+    <string name="lbs">Lbs</string>
 </resources>

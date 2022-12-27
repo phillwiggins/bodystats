@@ -65,7 +65,9 @@ internal class HealthConnectManager @Inject constructor(
     }
 
     override suspend fun checkIfAllPermissionsAreGranted() {
-        _state.update { it.copy(isPermissionsGranted = hasAllPermissions(permissions)) }
+        if (_state.value.isAvailable) {
+            _state.update { it.copy(isPermissionsGranted = hasAllPermissions(permissions)) }
+        }
     }
 
     private suspend fun hasAllPermissions(permissions: Set<HealthPermission>): Boolean {

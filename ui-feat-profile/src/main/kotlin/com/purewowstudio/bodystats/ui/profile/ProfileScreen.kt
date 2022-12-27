@@ -8,6 +8,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -16,7 +17,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.purewowstudio.bodystats.domain.base.getDateTimeAtEndOfDay
 import com.purewowstudio.bodystats.domain.base.toDateOfBirth
 import com.purewowstudio.bodystats.domain.entities.Gender
 import com.purewowstudio.bodystats.domain.entities.User
@@ -79,6 +79,8 @@ fun ProfileScreenLoadedState(
         val openDobDialog = remember { mutableStateOf(false) }
         val openGenderDialog = remember { mutableStateOf(false) }
         val openWeightDialog = remember { mutableStateOf(false) }
+        val weightType: MutableState<Weight.Type> =
+            remember { mutableStateOf(Weight.Type.KILOGRAMS) }
 
         if (openDobDialog.value) {
             DOBDialog(
@@ -107,7 +109,6 @@ fun ProfileScreenLoadedState(
 
         if (openWeightDialog.value) {
             WeightDialog(
-                initialWeight = Weight.kilograms(96.45), //TODO,
                 onConfirmClicked = {
                     //TODO
                     openWeightDialog.value = false

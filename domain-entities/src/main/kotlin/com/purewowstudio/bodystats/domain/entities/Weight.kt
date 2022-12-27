@@ -2,11 +2,11 @@ package com.purewowstudio.bodystats.domain.entities
 
 class Weight private constructor(
     private val value: Double,
-    private val type: Type,
+    val type: Type,
 ) : Comparable<Weight> {
 
     private val inGrams: Double
-        get() = get(type = Type.GRAMS)
+        get() = value * type.gramsPerUnit
 
     val inKilograms: Double
         get() = get(type = Type.KILOGRAMS)
@@ -46,21 +46,11 @@ class Weight private constructor(
 
     companion object {
         private val ZEROS = Type.values().associateWith { Weight(value = 0.0, type = it) }
-
-        @JvmStatic
-        fun grams(value: Double): Weight = Weight(value, Type.GRAMS)
-
-        @JvmStatic
         fun kilograms(value: Double): Weight = Weight(value, Type.KILOGRAMS)
-
-        @JvmStatic
         fun pounds(value: Double): Weight = Weight(value, Type.POUNDS)
     }
 
     enum class Type {
-        GRAMS {
-            override val gramsPerUnit: Double = 1.0
-        },
         KILOGRAMS {
             override val gramsPerUnit: Double = 1000.0
         },

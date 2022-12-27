@@ -6,14 +6,13 @@ import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.records.WeightRecord
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
-import com.purewowstudio.bodystats.data.healthconnect.extensions.roundOffDecimal
 import com.purewowstudio.bodystats.domain.base.di.IoDispatcher
 import com.purewowstudio.bodystats.domain.base.toDayMonthYear
+import com.purewowstudio.bodystats.domain.base.withTwoDecimalPlaces
 import com.purewowstudio.bodystats.domain.healthdata.HealthDataWeight
 import com.purewowstudio.bodystats.domain.healthdata.models.CurrentWeight
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.time.LocalDateTime
@@ -44,7 +43,7 @@ internal class HealthDataWeightImpl @Inject constructor(
                 Result.success(
                     CurrentWeight(
                         dateRecorded = record.time.toDayMonthYear(),
-                        amount = record.weight.inKilograms.roundOffDecimal().toString(),
+                        amount = record.weight.inKilograms.withTwoDecimalPlaces().toString(),
                         type = "Kg"
                     )
                 )

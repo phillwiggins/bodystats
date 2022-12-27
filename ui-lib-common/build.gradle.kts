@@ -7,5 +7,6 @@ plugins {
 dependencies {
     implementation(Dependencies.Compose.MATERIAL)
     implementation(project(Dependencies.Modules.UI.NAVIGATION))
+    implementation(project(Dependencies.Modules.Domain.STORES))
 }
 
