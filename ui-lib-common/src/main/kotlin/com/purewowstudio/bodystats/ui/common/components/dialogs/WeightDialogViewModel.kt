@@ -24,7 +24,7 @@ data class WeightDialogViewUiState(
 
 @HiltViewModel
 internal class WeightDialogViewModel @Inject constructor(
-    @Inject val userPrefs: UserPrefsStore
+    private val userPrefs: UserPrefsStore
 ) : ViewModel() {
 
     val currentWeight = Weight.pounds(210.1)
@@ -34,12 +34,18 @@ internal class WeightDialogViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            when (userPrefs.getWeightType()) {
-                Weight.Type.KILOGRAMS -> uiState = uiState.copy(
-
-                )
-                Weight.Type.POUNDS -> TODO()
-            }
+            val weightType = userPrefs.getWeightType()
+            uiState = uiState.copy(
+                isLoading = false,
+                wholeNumbers = when (weightType) {
+                    Weight.Type.KILOGRAMS -> buildIntList(bottom = MIN_KG, top = MAX_KG)
+                    Weight.Type.POUNDS -> buildIntList(bottom = MIN_LBS, top = MAX_LBS)
+                },
+                decimals = getDecimalList(),
+                weightType = weightType,
+                selectedWholeNumber = getWholeNumberFromWeight(currentWeight, weightType),
+                selectedDecimal = getDecimalNumberFromWeight(currentWeight, weightType)
+            )
         }
     }
 

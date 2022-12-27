@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.MonitorWeight
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -46,40 +47,44 @@ private fun WeightDialogContent(
     onConfirmClicked: (Weight) -> Unit,
     onDismiss: () -> Unit
 ) {
-    Dialog(
-        onDismissRequest = onDismiss,
-        properties = DialogProperties()
-    ) {
-        Material3Dialog(
-            icon = Icons.Outlined.MonitorWeight,
-            iconContentDescription = "Weight",
-            title = stringResource(id = R.string.weight),
-            subtitle = stringResource(id = R.string.weight_desc),
-            content = {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    ListItemPicker(
-                        value = uiState.selectedWholeNumber,
-                        onValueChange = onSelectedWholeNumberChanged,
-                        list = uiState.wholeNumbers,
-                    )
-                    Spacer(modifier = Modifier.width(2.dp))
-                    Text(text = ".", color = MaterialTheme.colorScheme.primary)
-                    Spacer(modifier = Modifier.width(2.dp))
-                    ListItemPicker(
-                        value = uiState.selectedDecimal,
-                        onValueChange = onSelectedDecimalNumberChanged,
-                        list = uiState.decimals
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    WeightTypeSelector(
-                        weightType = uiState.weightType,
-                        onWeightTypeChanged = onWeightTypeChanged
-                    )
-                }
-            },
-            onConfirmClicked = { onConfirmClicked.invoke(Weight.kilograms(uiState.selectedWholeNumber.toDouble() + uiState.selectedDecimal)) },
-            onDismiss = onDismiss
-        )
+    if (uiState.isLoading) {
+        CircularProgressIndicator()
+    } else {
+        Dialog(
+            onDismissRequest = onDismiss,
+            properties = DialogProperties()
+        ) {
+            Material3Dialog(
+                icon = Icons.Outlined.MonitorWeight,
+                iconContentDescription = "Weight",
+                title = stringResource(id = R.string.weight),
+                subtitle = stringResource(id = R.string.weight_desc),
+                content = {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        ListItemPicker(
+                            value = uiState.selectedWholeNumber,
+                            onValueChange = onSelectedWholeNumberChanged,
+                            list = uiState.wholeNumbers,
+                        )
+                        Spacer(modifier = Modifier.width(2.dp))
+                        Text(text = ".", color = MaterialTheme.colorScheme.primary)
+                        Spacer(modifier = Modifier.width(2.dp))
+                        ListItemPicker(
+                            value = uiState.selectedDecimal,
+                            onValueChange = onSelectedDecimalNumberChanged,
+                            list = uiState.decimals
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        WeightTypeSelector(
+                            weightType = uiState.weightType,
+                            onWeightTypeChanged = onWeightTypeChanged
+                        )
+                    }
+                },
+                onConfirmClicked = { onConfirmClicked.invoke(Weight.kilograms(uiState.selectedWholeNumber.toDouble() + uiState.selectedDecimal)) },
+                onDismiss = onDismiss
+            )
+        }
     }
 }
 
