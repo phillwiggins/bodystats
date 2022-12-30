@@ -3,14 +3,14 @@ package com.purewowstudio.bodystats.data.healthconnect.data
 import android.content.Context
 import android.os.RemoteException
 import androidx.health.connect.client.HealthConnectClient
-import androidx.health.connect.client.records.WeightRecord
+import androidx.health.connect.client.records.WeightRecord as DaoWeightRecord
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 import com.purewowstudio.bodystats.domain.base.di.IoDispatcher
 import com.purewowstudio.bodystats.domain.base.toDayMonthYear
-import com.purewowstudio.bodystats.domain.base.withTwoDecimalPlaces
+import com.purewowstudio.bodystats.domain.entities.Weight
 import com.purewowstudio.bodystats.domain.healthdata.HealthDataWeight
-import com.purewowstudio.bodystats.domain.healthdata.models.CurrentWeight
+import com.purewowstudio.bodystats.domain.healthdata.models.WeightRecord
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -25,10 +25,10 @@ internal class HealthDataWeightImpl @Inject constructor(
 
     private val healthConnectClient by lazy { HealthConnectClient.getOrCreate(context) }
 
-    override suspend fun readLatestWeight(): Result<CurrentWeight?> = withContext(dispatcher) {
+    override suspend fun readLatestWeight(): Result<WeightRecord?> = withContext(dispatcher) {
         return@withContext try {
             val request = ReadRecordsRequest(
-                recordType = WeightRecord::class,
+                recordType = DaoWeightRecord::class,
                 timeRangeFilter = TimeRangeFilter.between(
                     LocalDateTime.now().minusYears(5),
                     LocalDateTime.now()
@@ -41,11 +41,9 @@ internal class HealthDataWeightImpl @Inject constructor(
                 Result.success(null)
             } else {
                 Result.success(
-                    CurrentWeight(
+                    WeightRecord(
                         dateRecorded = record.time.toDayMonthYear(),
-                        amount = record.weight.inKilograms.withTwoDecimalPlaces().toString(),
-                        type = "Kg"
-                    )
+                        weight = Weight.kilograms(record.weight.inKilograms)                    )
                 )
             }
         } catch (exception: RemoteException) {

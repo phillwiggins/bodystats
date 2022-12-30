@@ -5,8 +5,9 @@ plugins {
 }
 
 dependencies {
+    implementation(project(Dependencies.Modules.Domain.ENTITIES))
     implementation(project(Dependencies.Modules.Domain.BASE))
     implementation(project(Dependencies.Modules.Domain.HEALTH_DATA))
 
-    implementation("androidx.health.connect:connect-client:1.0.0-alpha07")
+    implementation("androidx.health.connect:connect-client:1.0.0-alpha08")
 }

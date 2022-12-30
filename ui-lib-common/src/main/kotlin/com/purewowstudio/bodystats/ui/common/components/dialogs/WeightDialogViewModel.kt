@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.purewowstudio.bodystats.domain.base.convertDecimalPartToInt
 import com.purewowstudio.bodystats.domain.base.withSingleDecimalPlace
 import com.purewowstudio.bodystats.domain.entities.Weight
+import com.purewowstudio.bodystats.domain.healthdata.HealthDataWeight
 import com.purewowstudio.bodystats.domain.stores.UserPrefsStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -24,16 +25,16 @@ data class WeightDialogViewUiState(
 
 @HiltViewModel
 internal class WeightDialogViewModel @Inject constructor(
-    private val userPrefs: UserPrefsStore
+    private val userPrefs: UserPrefsStore,
+    private val weightDataStore: HealthDataWeight
 ) : ViewModel() {
-
-    val currentWeight = Weight.pounds(210.1)
 
     var uiState by mutableStateOf(WeightDialogViewUiState())
         private set
 
     init {
         viewModelScope.launch {
+            val currentWeight = weightDataStore.readLatestWeight().getOrNull() ?: return@launch
             val weightType = userPrefs.getWeightType()
             uiState = uiState.copy(
                 isLoading = false,
@@ -43,8 +44,8 @@ internal class WeightDialogViewModel @Inject constructor(
                 },
                 decimals = getDecimalList(),
                 weightType = weightType,
-                selectedWholeNumber = getWholeNumberFromWeight(currentWeight, weightType),
-                selectedDecimal = getDecimalNumberFromWeight(currentWeight, weightType)
+                selectedWholeNumber = getWholeNumberFromWeight(currentWeight.weight, weightType),
+                selectedDecimal = getDecimalNumberFromWeight(currentWeight.weight, weightType)
             )
         }
     }

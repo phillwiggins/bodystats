@@ -61,7 +61,7 @@ internal class HealthConnectManager @Inject constructor(
     override var state = _state.asStateFlow()
 
     override fun checkAvailability() {
-        _state.update { it.copy(isAvailable = HealthConnectClient.isAvailable(context)) }
+        _state.update { it.copy(isAvailable = HealthConnectClient.isProviderAvailable(context)) }
     }
 
     override suspend fun checkIfAllPermissionsAreGranted() {
@@ -94,135 +94,6 @@ internal class HealthConnectManager @Inject constructor(
         val response = healthConnectClient.readRecords(request)
         return response.records
     }
-
-    /**
-     * Writes an [ExerciseSessionRecord] to Health Connect, and additionally writes underlying data for
-     * the session too, such as [StepsRecord], [DistanceRecord] etc.
-     */
-    suspend fun writeExerciseSession(start: ZonedDateTime, end: ZonedDateTime) {
-        healthConnectClient.insertRecords(
-            listOf(
-                ExerciseSessionRecord(
-                    startTime = start.toInstant(),
-                    startZoneOffset = start.offset,
-                    endTime = end.toInstant(),
-                    endZoneOffset = end.offset,
-                    exerciseType = ExerciseSessionRecord.ExerciseType.RUNNING,
-                    title = "My Run #${Random.nextInt(0, 60)}"
-                ),
-                StepsRecord(
-                    startTime = start.toInstant(),
-                    startZoneOffset = start.offset,
-                    endTime = end.toInstant(),
-                    endZoneOffset = end.offset,
-                    count = (1000 + 1000 * Random.nextInt(3)).toLong()
-                ),
-                // Mark a 5 minute pause during the workout
-                ExerciseEventRecord(
-                    startTime = start.toInstant().plus(10, ChronoUnit.MINUTES),
-                    startZoneOffset = start.offset,
-                    endTime = start.toInstant().plus(15, ChronoUnit.MINUTES),
-                    endZoneOffset = end.offset,
-                    eventType = ExerciseEventRecord.EventType.PAUSE
-                ),
-                DistanceRecord(
-                    startTime = start.toInstant(),
-                    startZoneOffset = start.offset,
-                    endTime = end.toInstant(),
-                    endZoneOffset = end.offset,
-                    distance = Length.meters((1000 + 100 * Random.nextInt(20)).toDouble())
-                ),
-                TotalCaloriesBurnedRecord(
-                    startTime = start.toInstant(),
-                    startZoneOffset = start.offset,
-                    endTime = end.toInstant(),
-                    endZoneOffset = end.offset,
-                    energy = Energy.calories((140 + Random.nextInt(20)) * 0.01)
-                )
-            ) + buildHeartRateSeries(start, end) + buildSpeedSeries(start, end)
-        )
-    }
-
-    /**
-     * Deletes an [ExerciseSessionRecord] and underlying data.
-     */
-    suspend fun deleteExerciseSession(uid: String) {
-        val exerciseSession = healthConnectClient.readRecord(ExerciseSessionRecord::class, uid)
-        healthConnectClient.deleteRecords(
-            ExerciseSessionRecord::class,
-            recordIdsList = listOf(uid),
-            clientRecordIdsList = emptyList()
-        )
-        val timeRangeFilter = TimeRangeFilter.between(
-            exerciseSession.record.startTime,
-            exerciseSession.record.endTime
-        )
-        val rawDataTypes: Set<KClass<out Record>> = setOf(
-            HeartRateRecord::class,
-            SpeedRecord::class,
-            DistanceRecord::class,
-            StepsRecord::class,
-            TotalCaloriesBurnedRecord::class,
-            ExerciseEventRecord::class
-        )
-        rawDataTypes.forEach { rawType ->
-            healthConnectClient.deleteRecords(rawType, timeRangeFilter)
-        }
-    }
-
-    /**
-     * Reads aggregated data and raw data for selected data types, for a given [ExerciseSessionRecord].
-     */
-    /*suspend fun readAssociatedSessionData(
-        uid: String
-    ): ExerciseSessionData {
-        val exerciseSession = healthConnectClient.readRecord(ExerciseSessionRecord::class, uid)
-        // Use the start time and end time from the session, for reading raw and aggregate data.
-        val timeRangeFilter = TimeRangeFilter.between(
-            startTime = exerciseSession.record.startTime,
-            endTime = exerciseSession.record.endTime
-        )
-        val aggregateDataTypes = setOf(
-            ExerciseSessionRecord.ACTIVE_TIME_TOTAL,
-            StepsRecord.COUNT_TOTAL,
-            DistanceRecord.DISTANCE_TOTAL,
-            TotalCaloriesBurnedRecord.ENERGY_TOTAL,
-            HeartRateRecord.BPM_AVG,
-            HeartRateRecord.BPM_MAX,
-            HeartRateRecord.BPM_MIN,
-            SpeedRecord.SPEED_AVG,
-            SpeedRecord.SPEED_MAX,
-            SpeedRecord.SPEED_MIN
-        )
-        // Limit the data read to just the application that wrote the session. This may or may not
-        // be desirable depending on the use case: In some cases, it may be useful to combine with
-        // data written by other apps.
-        val dataOriginFilter = setOf(exerciseSession.record.metadata.dataOrigin)
-        val aggregateRequest = AggregateRequest(
-            metrics = aggregateDataTypes,
-            timeRangeFilter = timeRangeFilter,
-            dataOriginFilter = dataOriginFilter
-        )
-        val aggregateData = healthConnectClient.aggregate(aggregateRequest)
-        val speedData = readData<SpeedRecord>(timeRangeFilter, dataOriginFilter)
-        val heartRateData = readData<HeartRateRecord>(timeRangeFilter, dataOriginFilter)
-
-        return ExerciseSessionData(
-            uid = uid,
-            totalActiveTime = aggregateData[ExerciseSessionRecord.ACTIVE_TIME_TOTAL],
-            totalSteps = aggregateData[StepsRecord.COUNT_TOTAL],
-            totalDistance = aggregateData[DistanceRecord.DISTANCE_TOTAL],
-            totalEnergyBurned = aggregateData[TotalCaloriesBurnedRecord.ENERGY_TOTAL],
-            minHeartRate = aggregateData[HeartRateRecord.BPM_MIN],
-            maxHeartRate = aggregateData[HeartRateRecord.BPM_MAX],
-            avgHeartRate = aggregateData[HeartRateRecord.BPM_AVG],
-            heartRateSeries = heartRateData,
-            speedRecord = speedData,
-            minSpeed = aggregateData[SpeedRecord.SPEED_MIN],
-            maxSpeed = aggregateData[SpeedRecord.SPEED_MAX],
-            avgSpeed = aggregateData[SpeedRecord.SPEED_AVG],
-        )
-    }*/
 
     /**
      * Writes [WeightRecord] to Health Connect.

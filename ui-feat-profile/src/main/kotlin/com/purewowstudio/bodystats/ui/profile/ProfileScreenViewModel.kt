@@ -33,13 +33,63 @@ internal class ProfileScreenViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun onDOBUpdated(dob: LocalDate) = viewModelScope.launch {
-        val updatedUser = userStore.getUserDetailsStream().first().copy(dob = dob)
-        userStore.setUser(user = updatedUser)
+    fun onDOBUpdated(dob: LocalDate) {
+        viewModelScope.launch {
+            val updatedUser = userStore.getUserDetailsStream().first().copy(dob = dob)
+            userStore.setUser(user = updatedUser)
+        }
+
+        val currentUiState = uiState as? ProfileScreenView.Loaded ?: return
+        uiState = currentUiState.copy(isDOBDialogOpen = true)
     }
 
-    fun onGenderUpdated(gender: Gender) = viewModelScope.launch {
-        val updatedUser = userStore.getUserDetailsStream().first().copy(gender = gender)
-        userStore.setUser(user = updatedUser)
+    fun onGenderUpdated(gender: Gender) {
+        viewModelScope.launch {
+            val updatedUser = userStore.getUserDetailsStream().first().copy(gender = gender)
+            userStore.setUser(user = updatedUser)
+        }
+
+        val currentUiState = uiState as? ProfileScreenView.Loaded ?: return
+        uiState = currentUiState.copy(isGenderDialogOpen = true)
+    }
+
+    fun onDismissDOBDialogCalled() {
+        val currentUiState = uiState as? ProfileScreenView.Loaded ?: return
+        uiState = currentUiState.copy(isDOBDialogOpen = false)
+    }
+
+    fun onDismissGenderDialogCalled() {
+        val currentUiState = uiState as? ProfileScreenView.Loaded ?: return
+        uiState = currentUiState.copy(isGenderDialogOpen = false)
+    }
+
+    fun onDismissHeightDialogCalled() {
+        val currentUiState = uiState as? ProfileScreenView.Loaded ?: return
+        uiState = currentUiState.copy(isHeightDialogOpen = false)
+    }
+
+    fun onDismissWeightDialogCalled() {
+        val currentUiState = uiState as? ProfileScreenView.Loaded ?: return
+        uiState = currentUiState.copy(isWeightDialogOpen = false)
+    }
+
+    fun onDOBDialogClicked() {
+        val currentUiState = uiState as? ProfileScreenView.Loaded ?: return
+        uiState = currentUiState.copy(isDOBDialogOpen = true)
+    }
+
+    fun onGenderDialogClicked() {
+        val currentUiState = uiState as? ProfileScreenView.Loaded ?: return
+        uiState = currentUiState.copy(isGenderDialogOpen = true)
+    }
+
+    fun onHeightDialogClicked() {
+        val currentUiState = uiState as? ProfileScreenView.Loaded ?: return
+        uiState = currentUiState.copy(isHeightDialogOpen = true)
+    }
+
+    fun onWeightDialogClicked() {
+        val currentUiState = uiState as? ProfileScreenView.Loaded ?: return
+        uiState = currentUiState.copy(isWeightDialogOpen = true)
     }
 }

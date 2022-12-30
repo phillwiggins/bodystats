@@ -8,9 +8,6 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -20,7 +17,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.purewowstudio.bodystats.domain.base.toDateOfBirth
 import com.purewowstudio.bodystats.domain.entities.Gender
 import com.purewowstudio.bodystats.domain.entities.User
-import com.purewowstudio.bodystats.domain.entities.Weight
 import com.purewowstudio.bodystats.ui.common.components.Avatar
 import com.purewowstudio.bodystats.ui.common.components.NonEditableTextField
 import com.purewowstudio.bodystats.ui.common.components.dialogs.DOBDialog
@@ -32,11 +28,19 @@ import java.time.Month
 
 @Composable
 fun ProfileScreen() {
-    val viewModel = hiltViewModel<ProfileScreenViewModel>()
+    val viewModel: ProfileScreenViewModel = hiltViewModel()
     ProfileScreenContent(
         uiState = viewModel.uiState,
         onDOBUpdated = viewModel::onDOBUpdated,
-        onGenderUpdated = viewModel::onGenderUpdated
+        onGenderUpdated = viewModel::onGenderUpdated,
+        onDismissDOBDialogCalled = viewModel::onDismissDOBDialogCalled,
+        onDismissGenderDialogCalled = viewModel::onDismissGenderDialogCalled,
+        onDismissHeightDialogCalled = viewModel::onDismissHeightDialogCalled,
+        onDismissWeightDialogCalled = viewModel::onDismissWeightDialogCalled,
+        onDOBDialogClicked = viewModel::onDOBDialogClicked,
+        onGenderDialogClicked = viewModel::onGenderDialogClicked,
+        onHeightDialogClicked = viewModel::onHeightDialogClicked,
+        onWeightDialogClicked = viewModel::onWeightDialogClicked
     )
 }
 
@@ -44,14 +48,30 @@ fun ProfileScreen() {
 fun ProfileScreenContent(
     uiState: ProfileScreenView,
     onDOBUpdated: (LocalDate) -> Unit,
-    onGenderUpdated: (Gender) -> Unit
+    onGenderUpdated: (Gender) -> Unit,
+    onDOBDialogClicked: () -> Unit,
+    onGenderDialogClicked: () -> Unit,
+    onWeightDialogClicked: () -> Unit,
+    onHeightDialogClicked: () -> Unit,
+    onDismissDOBDialogCalled: () -> Unit,
+    onDismissGenderDialogCalled: () -> Unit,
+    onDismissWeightDialogCalled: () -> Unit,
+    onDismissHeightDialogCalled: () -> Unit,
 ) {
     when (uiState) {
         ProfileScreenView.Loading -> ProfileScreenLoadingState()
         is ProfileScreenView.Loaded -> ProfileScreenLoadedState(
             uiState = uiState,
             onDOBUpdated = onDOBUpdated,
-            onGenderUpdated = onGenderUpdated
+            onGenderUpdated = onGenderUpdated,
+            onWeightDialogClicked = onWeightDialogClicked,
+            onHeightDialogClicked = onHeightDialogClicked,
+            onGenderDialogClicked = onGenderDialogClicked,
+            onDOBDialogClicked = onDOBDialogClicked,
+            onDismissWeightDialogCalled = onDismissWeightDialogCalled,
+            onDismissHeightDialogCalled = onDismissHeightDialogCalled,
+            onDismissGenderDialogCalled = onDismissGenderDialogCalled,
+            onDismissDOBDialogCalled = onDismissDOBDialogCalled
         )
     }
 }
@@ -72,52 +92,52 @@ fun ProfileScreenLoadedState(
     modifier: Modifier = Modifier,
     uiState: ProfileScreenView.Loaded,
     onDOBUpdated: (LocalDate) -> Unit,
-    onGenderUpdated: (Gender) -> Unit
+    onGenderUpdated: (Gender) -> Unit,
+    onDOBDialogClicked: () -> Unit,
+    onGenderDialogClicked: () -> Unit,
+    onWeightDialogClicked: () -> Unit,
+    onHeightDialogClicked: () -> Unit,
+    onDismissDOBDialogCalled: () -> Unit,
+    onDismissGenderDialogCalled: () -> Unit,
+    onDismissWeightDialogCalled: () -> Unit,
+    onDismissHeightDialogCalled: () -> Unit,
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-        val openDobDialog = remember { mutableStateOf(false) }
-        val openGenderDialog = remember { mutableStateOf(false) }
-        val openWeightDialog = remember { mutableStateOf(false) }
-        val weightType: MutableState<Weight.Type> =
-            remember { mutableStateOf(Weight.Type.KILOGRAMS) }
-
-        if (openDobDialog.value) {
+        if (uiState.isDOBDialogOpen) {
             DOBDialog(
                 onConfirmClicked = {
                     onDOBUpdated(it)
-                    openDobDialog.value = false
                 },
                 onDismiss = {
-                    openDobDialog.value = false
+                    onDismissDOBDialogCalled()
                 }
             )
         }
 
-        if (openGenderDialog.value) {
+        if (uiState.isGenderDialogOpen) {
             GenderDialog(
                 currentSelection = uiState.user.gender,
                 onConfirmClicked = {
                     onGenderUpdated(it)
-                    openGenderDialog.value = false
                 },
                 onDismiss = {
-                    openGenderDialog.value = false
+                    onDismissGenderDialogCalled()
                 }
             )
         }
 
-        if (openWeightDialog.value) {
+        if (uiState.isWeightDialogOpen) {
             WeightDialog(
                 onConfirmClicked = {
-                    //TODO
-                    openWeightDialog.value = false
+                    onDismissWeightDialogCalled()
                 },
                 onDismiss = {
-                    openWeightDialog.value = false
+                    onDismissWeightDialogCalled()
                 }
             )
         }
+
         Avatar()
         Text(
             modifier = Modifier.padding(top = 16.dp),
@@ -149,14 +169,14 @@ fun ProfileScreenLoadedState(
                             modifier = Modifier.weight(0.5F, false),
                             text = stringResource(id = uiState.user.gender.name),
                             label = stringResource(id = R.string.gender),
-                            onClick = { openGenderDialog.value = true }
+                            onClick = onGenderDialogClicked
                         )
                         Spacer(modifier = modifier.width(8.dp))
                         NonEditableTextField(
                             modifier = Modifier.weight(0.5F, false),
                             text = uiState.user.dob.toDateOfBirth(),
                             label = stringResource(id = R.string.birthday),
-                            onClick = { openDobDialog.value = true }
+                            onClick = onDOBDialogClicked
                         )
                     }
                     Row(
@@ -168,14 +188,14 @@ fun ProfileScreenLoadedState(
                             modifier = Modifier.weight(0.5F, false),
                             text = "188lbs",
                             label = stringResource(id = R.string.weight),
-                            onClick = { openWeightDialog.value = true }
+                            onClick = onWeightDialogClicked
                         )
                         Spacer(modifier = modifier.width(8.dp))
                         NonEditableTextField(
                             modifier = Modifier.weight(0.5F, false),
                             text = "187cm",
                             label = stringResource(id = R.string.height),
-                            onClick = { /* NO OP */ }
+                            onClick = onHeightDialogClicked
                         )
                     }
                 }
@@ -184,6 +204,7 @@ fun ProfileScreenLoadedState(
     }
 }
 
+@Preview(uiMode = UI_MODE_NIGHT_YES)
 @Preview(uiMode = UI_MODE_NIGHT_NO)
 @Composable
 fun ProfileScreenPreviewLight() {
@@ -196,30 +217,22 @@ fun ProfileScreenPreviewLight() {
                     description = "Software Engineer",
                     avatarUrl = "",
                     dob = LocalDate.of(1988, Month.MAY, 15)
-                )
+                ),
+                isDOBDialogOpen = false,
+                isGenderDialogOpen = false,
+                isHeightDialogOpen = false,
+                isWeightDialogOpen = false,
             ),
             onDOBUpdated = {},
-            onGenderUpdated = {}
-        )
-    }
-}
-
-@Preview(uiMode = UI_MODE_NIGHT_YES)
-@Composable
-fun ProfileScreenPreviewDark() {
-    BodyStatsTheme {
-        ProfileScreenLoadedState(
-            uiState = ProfileScreenView.Loaded(
-                user = User(
-                    name = "Phill Wiggins",
-                    gender = Gender.Male,
-                    description = "Software Engineer",
-                    avatarUrl = "",
-                    dob = LocalDate.of(1988, Month.MAY, 15)
-                )
-            ),
-            onDOBUpdated = {},
-            onGenderUpdated = {}
+            onGenderUpdated = {},
+            onDismissDOBDialogCalled = {},
+            onDismissGenderDialogCalled = {},
+            onDismissHeightDialogCalled = {},
+            onDismissWeightDialogCalled = {},
+            onDOBDialogClicked = {},
+            onGenderDialogClicked = {},
+            onHeightDialogClicked = {},
+            onWeightDialogClicked = {}
         )
     }
 }
