@@ -40,6 +40,20 @@ fun SleepSession.getDeepTime(): Duration {
     return getDurationFromStage(STAGE_TYPE_DEEP)
 }
 
+fun SleepSession.getTimeWentToBed(): LocalTime {
+    return getLocalDateTime(startTime, startZoneOffset).toLocalTime()
+}
+
+fun SleepSession.getTimeOutOfBed(): LocalTime {
+    return getLocalDateTime(endTime, endZoneOffset).toLocalTime()
+}
+
+fun SleepSession.getTimeInBed(): Duration {
+    val startTime = getTimeWentToBed()
+    val endTime = getTimeOutOfBed()
+    return Duration.between(endTime, startTime)
+}
+
 private fun SleepSession.getDurationFromStage(stage: Int): Duration {
     val awakeItems = stages.filter { it.stage == stage }
     return awakeItems.fold(Duration.ZERO) { sum, element ->

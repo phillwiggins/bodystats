@@ -58,14 +58,15 @@ fun DataCardsViewContent(
         TotalCard(date = uiState.selectedDate)
         Spacer(modifier = Modifier.height(16.dp))
         Row {
+            val reusableModifier = Modifier.weight(0.5F, false).height(160.dp)
             SleepDataCard(
-                modifier = Modifier.weight(0.5F, false),
+                modifier = reusableModifier,
                 date = uiState.selectedDate,
                 onClicked = onSleepClicked
             )
             Spacer(modifier = Modifier.width(8.dp))
             WeightDataCard(
-                modifier = Modifier.weight(0.5F, false),
+                modifier = reusableModifier,
                 onClicked = onWeightClicked
             )
         }
@@ -78,14 +79,15 @@ fun DataCardsViewContent(
         }
         Spacer(modifier = Modifier.height(8.dp))
         Row {
+            val reusableModifier = Modifier.weight(0.5F, false).height(160.dp)
             CaloriesDataCard(
-                modifier = Modifier.weight(0.5F, false),
+                modifier = reusableModifier,
                 date = uiState.selectedDate,
                 onClicked = {}
             )
             Spacer(modifier = Modifier.width(8.dp))
             CaloriesBurntDataCard(
-                modifier = Modifier.weight(0.5F, false),
+                modifier = reusableModifier,
                 date = uiState.selectedDate,
                 onClicked = {}
             )

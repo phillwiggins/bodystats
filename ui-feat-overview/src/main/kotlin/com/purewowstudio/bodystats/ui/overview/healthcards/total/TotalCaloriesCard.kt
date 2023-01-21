@@ -1,10 +1,7 @@
 package com.purewowstudio.bodystats.ui.overview.healthcards.total
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,7 +27,7 @@ internal fun TotalCardContent(
     modifier: Modifier = Modifier,
     uiState: TotalCaloriesView
 ) {
-    ElevatedCard(
+    OutlinedCard(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()

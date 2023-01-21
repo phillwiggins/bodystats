@@ -32,3 +32,7 @@ BodyStats is licensed under the [Apache License, Version 2.0](https://www.apache
 ## Credits
 
 BodyStats is developed and maintained by a community of volunteers. We would like to thank all of our contributors for their hard work and dedication to improving the app. 🙏
+
+## Screenshots
+![Overview Screen](screenshots/screenshot_overview.png)
+![Sleep Screen](screenshots/screenshot_sleep.png)

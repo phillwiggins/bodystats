@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sleep">Sleep</string>
+    <string name="sleep_duration">Sleep Duration</string>
+    <string name="sleep_stages">Sleep Stages</string>
+    <string name="total_sleep">Total Sleep</string>
+    <string name="awake_time">Awake Time</string>
+    <string name="out_of_bed">Out of Bed</string>
+    <string name="time_in_bed">Time in bed</string>
+    <string name="start_time">Start Time</string>
+    <string name="end_time">End Time</string>
+    <string name="rem">Rem</string>
+    <string name="rem_aim">Aim for between 15&#8211;25%</string>
+    <string name="light_sleep">Light Sleep</string>
+    <string name="light_sleep_aim">Aim for between 40&#8211;60%</string>
+    <string name="deep_sleep">Deep Sleep</string>
+    <string name="deep_sleep_aim">Aim for between 15&#8211;25%</string>
+    <string name="time_move">Time moving out of bed</string>
+</resources>

@@ -1,6 +1,5 @@
 package com.purewowstudio.bodystats.ui.overview.healthcards.sleep
 
-import android.os.Build
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -9,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.purewowstudio.bodystats.domain.base.getDateTimeAtEndOfDay
 import com.purewowstudio.bodystats.domain.base.getDateTimeAtStartOfDay
-import com.purewowstudio.bodystats.domain.base.toFormattedDuration
+import com.purewowstudio.bodystats.domain.base.toHoursAndMins
 import com.purewowstudio.bodystats.domain.healthdata.HealthDataSleep
 import com.purewowstudio.bodystats.domain.healthdata.models.SleepSession
 import com.purewowstudio.bodystats.ui.overview.healthcards.OverviewCardUiState
@@ -50,7 +49,7 @@ class SleepDataCardViewModel @Inject constructor(
             OverviewCardUiState.NoData
         } else {
             OverviewCardUiState.Loaded(
-                amount = it.first().duration?.toFormattedDuration() ?: "",
+                amount = it.first().duration?.toHoursAndMins() ?: "",
                 subtitle = getStartAndEndTime(it.first()),
                 type = it.first().title ?: ""
             )

@@ -47,7 +47,7 @@ fun LocalDate.getDateTimeAtEndOfDay(): LocalDateTime {
         .withSecond(59)
 }
 
-fun Duration.toFormattedDuration(): String {
+fun Duration.toHoursAndMins(): String {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         String.format(
             "%dh %02dm",
